@@ -24,43 +24,57 @@
 <body>
 <h1>Welcome to Jeopardy!</h1>
 <div class="container">
+    <!-- categories row -->
     <div class="row">
         <div class="col-sm">
-                column 1: (science)
-                {buttons
-                    "$ 1000" value = 1000, function onclick -> $grid -> easy science question + input box + countdown from 5 seconds
-                    "$ 2000" value=2000, function onclick -> $grid -> med science question + input box + countdown
-                    "$ 3000" value=3000, function onclick -> $grid -> hard science question + input + countdown
-                }
+            <h1>Science</h1>
         </div>
         <div class="col-sm">
-            column 2: computers
-            {buttons
-                "$ 1000" value = 1000, function onclick -> $grid -> easy computer question + input box + countdown from 5 seconds
-                "$ 2000" value = 2000, function onclick -> $grid -> med computer question + input box + countdown
-                "$ 3000" value = 3000, function onclick -> $grid -> hard computer question + input + countdown
-            }
+            <h1>Computers</h1>
         </div>
         <div class="col-sm">
-                column 3: (Entertainment)
-                {buttons
-                    "$ 1000" value = 1000,function onclick -> $grid -> easy Entertainment question + input box + countdown from 5 seconds
-                    "$ 2000" value = 2000,function onclick -> $grid -> med Entertainment question + input box + countdown
-                    "$ 3000" value = 3000, function onclick -> $grid -> hard Entertainment question + input + countdown
-                }
+            <h1>Entertainment</h1>
         </div>
-
     </div>
-    
-categories: {Science, Computers, Entertainment}
-
-
-*if user does not click button in 5 seconds, will alert ("you ran out of time") and location.reload
-*if user enters correct response, alert("you are correct! you have collected" + money)
-*if user enters correct response, record money value into "money" array, which stores the sum of the values of each correct guess
-
-
-
+    <!-- $1000 row -->
+    <div class="row">
+        <div class="col-sm">
+            <button id="s1000"><h1>$1000</h1></button>
+        </div>
+        <div class="col-sm">
+            <button id="c1000"><h1>$1000</h1></button>
+        </div>
+        <div class="col-sm">
+            <button id="e1000"><h1>$1000</h1></button>
+        </div>
+    </div>
+    <!-- $2000 row -->
+    <div class="row">
+        <div class="col-sm">
+            <button id="s2000"><h1>$2000</h1></button>
+        </div>
+        <div class="col-sm">
+            <button id="c2000"><h1>$2000</h1></button>
+        </div>
+        <div class="col-sm">
+            <button id="e2000"><h1>$2000</h1></button>
+        </div>
+    </div>
+    <!-- $3000 row -->
+    <div class="row">
+        <div class="col-sm">
+            <button id="s3000"><h1>$3000</h1></button>
+        </div>
+        <div class="col-sm">
+            <button id="c3000"><h1>$3000</h1></button>
+        </div>
+        <div class="col-sm">
+            <button id="e3000"><h1>$3000</h1></button>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div id="valueSum">Here is where the money sum will go</div>
 </div>
 </body>
 </html>
