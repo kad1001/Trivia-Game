@@ -13,8 +13,6 @@
     <script src="https://code.jquery.com/jquery.js"></script>
     <!-- javascript -->
     <script src="assets/javascript/app.js"></script>
-    <!-- trivia questions api -->
-    <script src="https://opentdb.com/api.php?amount=10"></script>
     <!-- bootstrap js -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
@@ -23,7 +21,7 @@
 </head>
 <body>
 <h1>Welcome to Jeopardy!</h1>
-<div class="container">
+<div class="container" id="quiz">
     <!-- categories row -->
     <div class="row">
         <div class="col-sm">
@@ -73,8 +71,46 @@
         </div>
     </div>
 </div>
+
 <div class="container">
-    <div id="valueSum">Here is where the money sum will go</div>
+    <div id="results">Here is where the money sum will go</div>
 </div>
+
+<div class="hiding_container">
+    <div class="s1000">
+        <p>What is your favorite color?</p>
+        <input id="answer" type="text">
+        <div><p><span id="time"></span></p></div>
+    </div>   
+</div>
+
 </body>
+<script>
+$("#s1000").click(function() {
+    $(this).replaceWith($(".s1000"));
+    var seconds = 15,
+        display = document.querySelector('#time');
+    startTimer(seconds, display);
+})
+function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10)
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+
+        if (--timer < 0) {
+            timer = duration;
+        }
+    }, 1000);
+}
+
+
+
+</script>
+
 </html>
