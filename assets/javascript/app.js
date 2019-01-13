@@ -1,27 +1,8 @@
-$("#s1000").click(function() {
-    $(".container").replaceWith($(".questions"));
-})
+// $("#s1000").click(function() {
+//     $(".container").replaceWith($(".questions"));
+// })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// second: m
 
 
 

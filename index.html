@@ -21,93 +21,255 @@
 </head>
 <body>
 <h1>Welcome to Jeopardy!</h1>
+
+
 <div class="container" id="quiz">
-    <!-- categories row -->
-    <div class="row">
-        <div class="col-sm">
-            <h1>Science</h1>
-        </div>
-        <div class="col-sm">
-            <h1>Computers</h1>
-        </div>
-        <div class="col-sm">
-            <h1>Entertainment</h1>
-        </div>
-    </div>
-    <!-- $1000 row -->
-    <div class="row">
-        <div class="col-sm">
-            <button id="s1000"><h1>$1000</h1></button>
-        </div>
-        <div class="col-sm">
-            <button id="c1000"><h1>$1000</h1></button>
-        </div>
-        <div class="col-sm">
-            <button id="e1000"><h1>$1000</h1></button>
-        </div>
-    </div>
-    <!-- $2000 row -->
-    <div class="row">
-        <div class="col-sm">
-            <button id="s2000"><h1>$2000</h1></button>
-        </div>
-        <div class="col-sm">
-            <button id="c2000"><h1>$2000</h1></button>
-        </div>
-        <div class="col-sm">
-            <button id="e2000"><h1>$2000</h1></button>
-        </div>
-    </div>
-    <!-- $3000 row -->
-    <div class="row">
-        <div class="col-sm">
-            <button id="s3000"><h1>$3000</h1></button>
-        </div>
-        <div class="col-sm">
-            <button id="c3000"><h1>$3000</h1></button>
-        </div>
-        <div class="col-sm">
-            <button id="e3000"><h1>$3000</h1></button>
-        </div>
-    </div>
+
+        <table class="table">
+                <thead>
+                    <!-- questions row -->
+                  <tr id="sciRow">
+                    <!-- The scope attribute specifies that this is a header for a column -->
+                    <th scope="col">Science</th>
+                    <th scope="col">Computers</th>
+                    <th scope="col">Film</th>
+                  </tr>
+
+                </thead>
+                <tbody id="questionsBody">
+                    <!-- multiple choice option, tell correct answer (change font to correct question -> bold) -->
+                    <!--$1000 questions  -->
+                    <tr>
+                    <td id="easySciQ"> $1000</td>
+                    <td id="easyCompQ"> $1000</td>
+                    <td id="easyEntQ"> $1000</td>
+                  </tr>
+                  <!-- $2000 -->
+                  <tr>
+                        <td id="medSciQ"> $2000</td>
+                        <td id="medCompQ"> $2000</td>
+                        <td id="medEntQ"> $2000</td>
+                    </tr>
+                    <!-- $3000 -->
+                    <tr>
+                            <td id="hardSciQ"> $3000</td>
+                            <td id="hardEntQ"> $3000</td>
+                            <td id="hardCompQ"> $3000</td>
+                        </tr>
+
+
+                  <!-- Insert additional rows here -->
+                </tbody>
+              </table>
+
+
 </div>
 
 <div class="container">
     <div id="results">Here is where the money sum will go</div>
 </div>
 
-<div class="hiding_container">
-    <div class="s1000">
-        <p>What is your favorite color?</p>
-        <input id="answer" type="text">
+
         <div><p><span id="time"></span></p></div>
-    </div>   
-</div>
+
+
+
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+  // The below code fills in the first row of the table
+
+  //   get 1 easy science question
+  var EasySciQueryURL = "https://opentdb.com/api.php?amount=1&category=17&difficulty=easy&type=multiple";
+
+
+  $.ajax({
+    url: EasySciQueryURL,
+    method: "GET"
+  }).then(function(response) {
+
+    // Create a new table row element
+    var sciRow = $("#sciRow");
+
+    var question = response.results[0].question;
+    var correct_answer = response.results[0].correct_answer;
+   
+    var incorrect_answers = response.results[0].incorrect_answers;
+
+    // make data visible on click
+    $("#easySciQ").click(function() {
+        sciRow.append(question, correct_answer, incorrect_answers);
+
+    
+        // replace the money value with these variables
+        $("#sciRow").text(question);
+
+        // answers can be accessed in answers array
+
+        const answers = [correct_answer + incorrect_answers];
+
+        // shuffling the order of answers in the answers array
+            function shuffle(array) {
+            var currentIndex = array.length, temporaryValue, randomIndex;
+            // While there remain elements to shuffle...
+            while (0 !== currentIndex) {
+                // Pick a remaining element...
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+                // And swap it with the current element.
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+            }
+            return array;
+            }
+
+            // Used like so
+            var arr = [incorrect_answers[0], incorrect_answers[1], incorrect_answers[2], correct_answer];
+            arr = shuffle(arr);
+            console.log(arr);
+
+            // making each question accessible through a variable
+            var q1 = arr[0];
+            var q2 = arr[1];
+            var q3 = arr[2];
+            var q4 = arr[3];
+
+            // create buttons for each arr
+            var btn1 = document.createElement("button");
+            var btn2 = document.createElement("button");
+            var btn3 = document.createElement("button");
+            var btn4 = document.createElement("button");
+
+
+            // object - oriented 
+            // display arr in body, append each with a button
+            $("#easySciQ").text(q1).append(btn1).addClass("button");
+            $("#medSciQ").text(q2).append(btn2).addClass("button");
+            $("#easyCompQ").text(q3).append(btn3).addClass("button");
+            $("#medCompQ").text(q4).append(btn4).addClass("button");
+
+            console.log(correct_answer)
+
+            
+            // add event listeners for the buttons
+            // correct_answer.addEventListener("click", function(){ alert("Hello World!"); });
+
+
+
+            
+
+        // function for when user clicks on an answer in DOM
+        
+
+        // if user clicks on correct answer, add alert message
+
+        // making a form append to 
+        
+        // <input type="radio" name="choice" value="Scripting"> Scripting
+        // <input type="radio" name="choice" value="Programming"> Programming
+        // <input type="radio" name="choice" value="Application"> Application
+        // <input type="radio" name="choice" value="None of These"> None of These
+        // </form>
+        // <button onclick="submitAnswer()"Submit Answer</button> 
+
+        //         function submitAnswer() {
+        // var radios = document.getElementsByName("choice");
+        // var i = 0, len = radios.length;
+        // var checked = false;
+        // var userAnswer;
+        
+        // for( ; i < len; i++ ) {
+        //     if(radios[i].checked) {
+        //     checked = true;
+        //     userAnswer = radios[i].value;
+        //     }
+        // } 
+        // if user click submit button without selecting any option, alert box should be say "please select choice answer".
+        // if(!checked) {
+        //     alert("please select choice answer");
+        //     return;
+        // }
+        // // Correct answer
+        // if(userAnswer === correct_answer) {
+        //     alert("Answer is correct!");
+        // }
+        // // incorrect answer
+        // else {
+        //     alert("Answer is wrong!");
+        
+        //     console.log("hey")
+            });
+        });
+
+//     //   get 1 medium science question
+//     var MedSciQueryURL = "https://opentdb.com/api.php?amount=1&category=17&difficulty=easy&type=multiple";
+
+//     $.ajax({
+//     url: MedSciQueryURL,
+//     method: "GET"
+//   }).then(function(response) {
+//     // Create a new table row element
+//     var ESRow = $("#sciRow");
+
+
+
+
+
+    // get 1 hard science question
+    var HardSciQueryURL = "https://opentdb.com/api.php?amount=1&category=17&difficulty=hard&type=multiple";
+
+    // // get 1 easy computers
+
+    // var EasyCompQueryURL = "https://opentdb.com/api.php?amount=1&category=18&difficulty=easy&type=multiple";
+
+    // // get 1 medium computers
+    // var MedCompQueryURL = "https://opentdb.com/api.php?amount=1&category=18&difficulty=medium&type=multiple";
+    // // get 1 hard computers
+    // var HardCompQueryURL = "https://opentdb.com/api.php?amount=1&category=18&difficulty=hard&type=multiple";
+
+    // // get 1 easy ent
+
+    // var EasyEntQueryURL = "https://opentdb.com/api.php?amount=1&category=11&difficulty=easy&type=multiple";
+
+    // // get 1 medium ent
+
+    // var MedEntQueryURL = "https://opentdb.com/api.php?amount=1&category=11&difficulty=medium&type=multiple";
+
+    // // get 1 hard ent
+
+    // var HardEntQueryURL = "https://opentdb.com/api.php?amount=1&category=11&difficulty=hard&type=multiple";
+
+
+</script>
 
 </body>
 <script>
-$("#s1000").click(function() {
-    $(this).replaceWith($(".s1000"));
-    var seconds = 15,
-        display = document.querySelector('#time');
-    startTimer(seconds, display);
-})
-function startTimer(duration, display) {
-    var timer = duration, minutes, seconds;
-    setInterval(function () {
-        minutes = parseInt(timer / 60, 10)
-        seconds = parseInt(timer % 60, 10);
 
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
 
-        display.textContent = minutes + ":" + seconds;
 
-        if (--timer < 0) {
-            timer = duration;
-        }
-    }, 1000);
-}
+// $("#s1000").click(function() {
+//     $(this).replaceWith($(".s1000"));
+//     var seconds = 15,
+//         display = document.querySelector('#time');
+//     startTimer(seconds, display);
+// })
+// function startTimer(duration, display) {
+//     var timer = duration, minutes, seconds;
+//     setInterval(function () {
+//         minutes = parseInt(timer / 60, 10)
+//         seconds = parseInt(timer % 60, 10);
+
+//         minutes = minutes < 10 ? "0" + minutes : minutes;
+//         seconds = seconds < 10 ? "0" + seconds : seconds;
+
+//         display.textContent = minutes + ":" + seconds;
+
+//         if (--timer < 0) {
+//             timer = duration;
+//         }
+//     }, 1000);
+// }
 
 
 
