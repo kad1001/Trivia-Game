@@ -87,29 +87,7 @@
     url: EasySciQueryURL,
     method: "GET"
   }).then(function(response) {
-
-    // Create a new table row element
-    var sciRow = $("#sciRow");
-
-    var question = response.results[0].question;
-    var correct_answer = response.results[0].correct_answer;
-   
-    var incorrect_answers = response.results[0].incorrect_answers;
-
-    // make data visible on click
-    $("#easySciQ").click(function() {
-        sciRow.append(question, correct_answer, incorrect_answers);
-
-    
-        // replace the money value with these variables
-        $("#sciRow").text(question);
-
-        // answers can be accessed in answers array
-
-        const answers = [correct_answer + incorrect_answers];
-
-        // shuffling the order of answers in the answers array
-            function shuffle(array) {
+    function shuffle(array) {
             var currentIndex = array.length, temporaryValue, randomIndex;
             // While there remain elements to shuffle...
             while (0 !== currentIndex) {
@@ -124,96 +102,160 @@
             return array;
             }
 
-            // Used like so
+
+    // Create a new table row element
+    var sciRow = $("#sciRow");
+    var question = response.results[0].question;
+    var correct_answer = response.results[0].correct_answer;
+    var incorrect_answers = response.results[0].incorrect_answers;
+
+    // make data visible on click
+    $("#easySciQ").click(function() {
+        sciRow.append(question, correct_answer, incorrect_answers);
+
+        // replace the money value with these variables
+        $("#sciRow").text(question);
+
+        // answers can be accessed in answers array
+        const answers = [correct_answer + incorrect_answers];
+
+            // shuffled answers in arr array
             var arr = [incorrect_answers[0], incorrect_answers[1], incorrect_answers[2], correct_answer];
             arr = shuffle(arr);
             console.log(arr);
 
             // making each question accessible through a variable
-            var q1 = arr[0];
-            var q2 = arr[1];
-            var q3 = arr[2];
-            var q4 = arr[3];
+            // function addElement(arr) {
+            //     var newButton = document.createElement("button");
+            //     var newContent = document.createTextNode("Hello there!");
+            //     newButton.appendChild(newContent);
+            //     var currentDiv = document.getElementById("easySciQ");
+            //     document.body.insertBefore(newButton, currentDiv);
 
-            // create buttons for each arr
-            var btn1 = document.createElement("button");
-            var btn2 = document.createElement("button");
-            var btn3 = document.createElement("button");
-            var btn4 = document.createElement("button");
-
+            // }
+ 
+            // create buttons for each string in arr -- each shuffled question
+            // var btn1 = document.createElement("button");
+            // var btn2 = document.createElement("button");
+            // var btn3 = document.createElement("button");
+            // var btn4 = document.createElement("button");
 
             // object - oriented 
             // display arr in body, append each with a button
-            $("#easySciQ").text(q1).append(btn1).addClass("button");
-            $("#medSciQ").text(q2).append(btn2).addClass("button");
-            $("#easyCompQ").text(q3).append(btn3).addClass("button");
-            $("#medCompQ").text(q4).append(btn4).addClass("button");
+            $("#easySciQ").text(arr);
+            // $("#medSciQ").text(q2).append(btn2).addClass("button");
+            // $("#easyCompQ").text(q3).append(btn3).addClass("button");
+            // $("#medCompQ").text(q4).append(btn4).addClass("button");
 
-            console.log(correct_answer)
+            // Call .filter() on arr to find correct_answer and hold it in "correct"
+            const correct = arr.filter(answers => {
+            return answers == correct_answer
+            });
 
+            // functions for passing values into other questions etc
+
+            class answersObj {
+                // constructor() method accepts 2 parameters: question and arr
+                constructor(question, arr) {
+                // holds current question, answers
+                this.question = question;
+                this.arr = arr;
+                }
+            }
             
+            // var me stores an instance of my question class
+            const me = new answersObj(correct);
+            console.log(me.question)
+
+            // const yes = arr.forEach(arr => {
+
+            // var newButton = document.createElement("button");
+            // var newContent = document.createTextNode("Hi there");
+            // newButton.appendChild(newContent);
+            // });
+
+            // console.log(yes)
+
+
+            // correct_answer class="correct"
+            // add class to correct_answer:
+  
             // add event listeners for the buttons
             // correct_answer.addEventListener("click", function(){ alert("Hello World!"); });
 
-
-
-            
-
         // function for when user clicks on an answer in DOM
-        
 
-        // if user clicks on correct answer, add alert message
-
-        // making a form append to 
-        
-        // <input type="radio" name="choice" value="Scripting"> Scripting
-        // <input type="radio" name="choice" value="Programming"> Programming
-        // <input type="radio" name="choice" value="Application"> Application
-        // <input type="radio" name="choice" value="None of These"> None of These
-        // </form>
-        // <button onclick="submitAnswer()"Submit Answer</button> 
-
-        //         function submitAnswer() {
-        // var radios = document.getElementsByName("choice");
-        // var i = 0, len = radios.length;
-        // var checked = false;
-        // var userAnswer;
-        
-        // for( ; i < len; i++ ) {
-        //     if(radios[i].checked) {
-        //     checked = true;
-        //     userAnswer = radios[i].value;
-        //     }
-        // } 
-        // if user click submit button without selecting any option, alert box should be say "please select choice answer".
-        // if(!checked) {
-        //     alert("please select choice answer");
-        //     return;
-        // }
-        // // Correct answer
-        // if(userAnswer === correct_answer) {
-        //     alert("Answer is correct!");
-        // }
-        // // incorrect answer
-        // else {
-        //     alert("Answer is wrong!");
-        
-        //     console.log("hey")
-            });
         });
+    });
 
-//     //   get 1 medium science question
-//     var MedSciQueryURL = "https://opentdb.com/api.php?amount=1&category=17&difficulty=easy&type=multiple";
+    //   get 1 medium science question
+    var MedSciQueryURL = "https://opentdb.com/api.php?amount=1&category=17&difficulty=easy&type=multiple";
 
-//     $.ajax({
-//     url: MedSciQueryURL,
-//     method: "GET"
-//   }).then(function(response) {
-//     // Create a new table row element
-//     var ESRow = $("#sciRow");
+    $.ajax({
+    url: MedSciQueryURL,
+    method: "GET"
+  }).then(function(response) {
+    // Create a new table row element
+    var sciRow = $("#sciRow");
+    var question = response.results[0].question;
+    var correct_answer = response.results[0].correct_answer;
+    var incorrect_answers = response.results[0].incorrect_answers;
+    function shuffle(array) {
+            var currentIndex = array.length, temporaryValue, randomIndex;
+            // While there remain elements to shuffle...
+            while (0 !== currentIndex) {
+                // Pick a remaining element...
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+                // And swap it with the current element.
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+            }
+            return array;
+            }
 
+    // make data visible on click
+    $("#medSciQ").click(function() {
+        sciRow.append(question, correct_answer, incorrect_answers);
 
+        // replace the money value with these variables
+        $("#sciRow").text(question);
 
+        // answers can be accessed in answers array
+        const answers = [correct_answer + incorrect_answers];
+
+        // shuffling the order of answers in the answers array
+            var arr = [incorrect_answers[0], incorrect_answers[1], incorrect_answers[2], correct_answer];
+            arr = shuffle(arr);
+            console.log(arr);
+
+            // display arr in body
+            $("#easySciQ").text(arr);
+            // $("#medSciQ").text(q2).append(btn2).addClass("button");
+            // $("#easyCompQ").text(q3).append(btn3).addClass("button");
+            // $("#medCompQ").text(q4).append(btn4).addClass("button");
+
+            // Call .filter() on arr to find correct_answer and hold it in "correct"
+            const correct = arr.filter(answers => {
+            return answers == correct_answer
+            });
+
+            // functions for passing values into other questions etc
+            class answersObj {
+                // constructor() method accepts 2 parameters: question and arr
+                constructor(question, arr) {
+                // holds current question, answers
+                this.question = question;
+                this.arr = arr;
+                }
+            }
+            
+            // var me stores an instance of my question class
+            const me = new answersObj(correct);
+            console.log(me.question)
+        });
+    })
 
 
     // get 1 hard science question
@@ -244,16 +286,12 @@
 </script>
 
 </body>
-<script>
+// <script>
 
-
-
-// $("#s1000").click(function() {
-//     $(this).replaceWith($(".s1000"));
 //     var seconds = 15,
 //         display = document.querySelector('#time');
 //     startTimer(seconds, display);
-// })
+
 // function startTimer(duration, display) {
 //     var timer = duration, minutes, seconds;
 //     setInterval(function () {
@@ -269,10 +307,7 @@
 //             timer = duration;
 //         }
 //     }, 1000);
-// }
 
-
-
-</script>
+// </script>
 
 </html>
