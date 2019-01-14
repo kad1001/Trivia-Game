@@ -40,254 +40,184 @@
                     <!-- multiple choice option, tell correct answer (change font to correct question -> bold) -->
                     <!--$1000 questions  -->
                     <tr>
-                    <td id="easySciQ"> $1000</td>
-                    <td id="easyCompQ"> $1000</td>
-                    <td id="easyEntQ"> $1000</td>
+                    <td id="easySciQ"> 
+                        <button class="button" onclick="newTrivia(scienceSubject, easy)">$1000</button>
+                    </td>
+                    <td id="easyCompQ"> 
+                        <button class="button" onclick="newTrivia(compSubject, easy)">$1000</button>
+                    </td>
+                    <td id="easyEntQ"> 
+                        <button class="button" onclick="newTrivia(entSubject, easy)">$1000</button></td>
                   </tr>
                   <!-- $2000 -->
                   <tr>
-                        <td id="medSciQ"> $2000</td>
-                        <td id="medCompQ"> $2000</td>
-                        <td id="medEntQ"> $2000</td>
+                        <td id="medSciQ"> 
+                            <button class="button" onclick="newTrivia(scienceSubject, medium)">$2000</button>
+                        </td>
+                        <td id="medCompQ"> 
+                            <button class="button"onclick="newTrivia(compSubject, medium)">$2000</button></td>
+                        <td id="medEntQ"> 
+                            <button class="button"onclick="newTrivia(entSubject, medium)">$2000</button></td>
                     </tr>
                     <!-- $3000 -->
                     <tr>
-                            <td id="hardSciQ"> $3000</td>
-                            <td id="hardEntQ"> $3000</td>
-                            <td id="hardCompQ"> $3000</td>
-                        </tr>
-
-
-                  <!-- Insert additional rows here -->
+                        <td id="hardSciQ">
+                                <button class="button" onclick="newTrivia(scienceSubject, hard)">$3000</button></td>
+                        <td id="hardEntQ">
+                            <button class="button" onclick="newTrivia(compSubject, hard)">$3000</button></td>
+                        <td id="hardCompQ">
+                            <button class="button" onclick="newTrivia(entSubject, hard)">$3000</button></td>
+                    </tr>
                 </tbody>
               </table>
-
-
 </div>
 
-<div class="container">
+<!-- <div class="container">
     <div id="results">Here is where the money sum will go</div>
 </div>
+<div><p><span id="time"></span></p></div> -->
 
-
-        <div><p><span id="time"></span></p></div>
-
-
-
-
- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">
-  // The below code fills in the first row of the table
+ // The createRow function takes data returned by newTrivia and appends the table data to the tbody
+    // var createRow = function(data) {
 
-  //   get 1 easy science question
-  var EasySciQueryURL = "https://opentdb.com/api.php?amount=1&category=17&difficulty=easy&type=multiple";
+    // subject APIs
+    //  class FinalURL {
+    //      constructor(subject, difficulty) {
+    //          this._subject = subject;
+    //          this._difficulty = difficulty;
+    //      }
+    //  }
+    // // on #sci1button click
+    //  const easyScience = new FinalURL("");
+    //  const medScience = new FinalURL("");
 
-
-  $.ajax({
-    url: EasySciQueryURL,
-    method: "GET"
-  }).then(function(response) {
+    // base query URL
+    // var easyBaseURL = ("https://opentdb.com/api.php?amount=1&category=" + subject + "&difficulty=" + easy + "&type=multiple");
+    // var medBaseURL = ("https://opentdb.com/api.php?amount=1&category=" + subject + "&difficulty=" + medium + "&type=multiple");
+    // var hardBaseURL = ("https://opentdb.com/api.php?amount=1&category=" + subject + "&difficulty=" + hard + "&type=multiple");
+ //   global functions ----
+    //   shuffles questions
     function shuffle(array) {
-            var currentIndex = array.length, temporaryValue, randomIndex;
-            // While there remain elements to shuffle...
-            while (0 !== currentIndex) {
-                // Pick a remaining element...
-                randomIndex = Math.floor(Math.random() * currentIndex);
-                currentIndex -= 1;
-                // And swap it with the current element.
-                temporaryValue = array[currentIndex];
-                array[currentIndex] = array[randomIndex];
-                array[randomIndex] = temporaryValue;
-            }
-            return array;
-            }
+        var currentIndex = array.length, temporaryValue, randomIndex;
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
+        return array;
+    };
 
+        // creates multiple choice button, determines whether it is checked
+    function createRadioElement(name, checked) {
+        var radioHtml = '<input type="radio" name="' + name + '"';
+        if (checked) {
+            radioHtml += 'checked="checked"';
+            console.log(this)
+        }
+        radioHtml += '/>';
 
-    // Create a new table row element
-    var sciRow = $("#sciRow");
-    var question = response.results[0].question;
-    var correct_answer = response.results[0].correct_answer;
-    var incorrect_answers = response.results[0].incorrect_answers;
+        var radioFragment = document.createElement('div');
+        radioFragment.innerHTML = radioHtml;
 
-    // make data visible on click
-    $("#easySciQ").click(function() {
-        sciRow.append(question, correct_answer, incorrect_answers);
-
-        // replace the money value with these variables
-        $("#sciRow").text(question);
-
-        // answers can be accessed in answers array
-        const answers = [correct_answer + incorrect_answers];
-
-            // shuffled answers in arr array
-            var arr = [incorrect_answers[0], incorrect_answers[1], incorrect_answers[2], correct_answer];
-            arr = shuffle(arr);
-            console.log(arr);
-
-            // making each question accessible through a variable
-            // function addElement(arr) {
-            //     var newButton = document.createElement("button");
-            //     var newContent = document.createTextNode("Hello there!");
-            //     newButton.appendChild(newContent);
-            //     var currentDiv = document.getElementById("easySciQ");
-            //     document.body.insertBefore(newButton, currentDiv);
-
-            // }
+        return radioFragment.firstChild;
+    };
  
-            // create buttons for each string in arr -- each shuffled question
-            // var btn1 = document.createElement("button");
-            // var btn2 = document.createElement("button");
-            // var btn3 = document.createElement("button");
-            // var btn4 = document.createElement("button");
+    // global vars...
+    var subject;
+    var difficulty;
+    var queryURL = ("https://opentdb.com/api.php?amount=1&category=" + subject + difficulty + "&type=multiple");
+    // difficulty APIs
+    var easy = "&difficulty=easy";
+    var medium = "&difficulty=medium";
+    var hard = "&difficulty=hard";
+    //   subject APIs
+    var scienceSubject = 17;
+    var compSubject = 11;
+    var entSubject = 12;
 
-            // object - oriented 
-            // display arr in body, append each with a button
-            $("#easySciQ").text(arr);
-            // $("#medSciQ").text(q2).append(btn2).addClass("button");
-            // $("#easyCompQ").text(q3).append(btn3).addClass("button");
-            // $("#medCompQ").text(q4).append(btn4).addClass("button");
+    var qSpot = $("#sciRow");
 
-            // Call .filter() on arr to find correct_answer and hold it in "correct"
-            const correct = arr.filter(answers => {
-            return answers == correct_answer
-            });
+    var createRow = function(data){
 
-            // functions for passing values into other questions etc
+        var tRow = $("<tr>");
+        
+        // shuffling the order of answers in the answers array
+        var question = (data.results[0].question);
+        var incorrect_answers = (data.results[0].incorrect_answers);
+        var correct_answer = (data.results[0].correct_answer);
+        console.log(question)
+        console.log(correct_answer);
+        var arr = [incorrect_answers[0], incorrect_answers[1], incorrect_answers[2], correct_answer];
+        arr = shuffle(arr);
+        console.log(arr);
 
-            class answersObj {
-                // constructor() method accepts 2 parameters: question and arr
-                constructor(question, arr) {
-                // holds current question, answers
-                this.question = question;
-                this.arr = arr;
-                }
-            }
-            
-            // var me stores an instance of my question class
-            const me = new answersObj(correct);
-            console.log(me.question)
-
-            // const yes = arr.forEach(arr => {
-
-            // var newButton = document.createElement("button");
-            // var newContent = document.createTextNode("Hi there");
-            // newButton.appendChild(newContent);
-            // });
-
-            // console.log(yes)
-
-
-            // correct_answer class="correct"
-            // add class to correct_answer:
-  
-            // add event listeners for the buttons
-            // correct_answer.addEventListener("click", function(){ alert("Hello World!"); });
-
-        // function for when user clicks on an answer in DOM
-
-        });
-    });
-
-    //   get 1 medium science question
-    var MedSciQueryURL = "https://opentdb.com/api.php?amount=1&category=17&difficulty=easy&type=multiple";
-
-    $.ajax({
-    url: MedSciQueryURL,
-    method: "GET"
-  }).then(function(response) {
-    // Create a new table row element
-    var sciRow = $("#sciRow");
-    var question = response.results[0].question;
-    var correct_answer = response.results[0].correct_answer;
-    var incorrect_answers = response.results[0].incorrect_answers;
-    function shuffle(array) {
-            var currentIndex = array.length, temporaryValue, randomIndex;
-            // While there remain elements to shuffle...
-            while (0 !== currentIndex) {
-                // Pick a remaining element...
-                randomIndex = Math.floor(Math.random() * currentIndex);
-                currentIndex -= 1;
-                // And swap it with the current element.
-                temporaryValue = array[currentIndex];
-                array[currentIndex] = array[randomIndex];
-                array[randomIndex] = temporaryValue;
-            }
-            return array;
-            }
-
-    // make data visible on click
-    $("#medSciQ").click(function() {
-        sciRow.append(question, correct_answer, incorrect_answers);
-
-        // replace the money value with these variables
         $("#sciRow").text(question);
 
-        // answers can be accessed in answers array
-        const answers = [correct_answer + incorrect_answers];
+        var a1 = $("#easySciQ").text(arr[0]).append(createRadioElement());
+        var a2 = $("#easyCompQ").text(arr[1]).append(createRadioElement());
+        var a3 = $("#medSciQ").text(arr[2]).append(createRadioElement());
+        var a4 = $("#medCompQ").text(arr[3]).append(createRadioElement());
 
-        // shuffling the order of answers in the answers array
-            var arr = [incorrect_answers[0], incorrect_answers[1], incorrect_answers[2], correct_answer];
-            arr = shuffle(arr);
-            console.log(arr);
+        
 
-            // display arr in body
-            $("#easySciQ").text(arr);
-            // $("#medSciQ").text(q2).append(btn2).addClass("button");
-            // $("#easyCompQ").text(q3).append(btn3).addClass("button");
-            // $("#medCompQ").text(q4).append(btn4).addClass("button");
-
-            // Call .filter() on arr to find correct_answer and hold it in "correct"
-            const correct = arr.filter(answers => {
-            return answers == correct_answer
-            });
-
-            // functions for passing values into other questions etc
-            class answersObj {
-                // constructor() method accepts 2 parameters: question and arr
-                constructor(question, arr) {
-                // holds current question, answers
-                this.question = question;
-                this.arr = arr;
-                }
-            }
-            
-            // var me stores an instance of my question class
-            const me = new answersObj(correct);
-            console.log(me.question)
+        // Call .filter() on arr to find correct_answer and hold it in "correct"
+        const rightAnswer = arr.filter(answers => {
+        return answers == correct_answer;
         });
-    })
+        console.log(rightAnswer.checked)
+    };
 
 
-    // get 1 hard science question
-    var HardSciQueryURL = "https://opentdb.com/api.php?amount=1&category=17&difficulty=hard&type=multiple";
+    // The newTrivia function takes a category and difficulty, searches the omdb api for it, and then passes the data to createRow
+    var newTrivia = function(subject, difficulty) {
+        var queryURL = ("https://opentdb.com/api.php?amount=1&category=" + subject + difficulty + "&type=multiple");
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+      }).then(function(response) {
+          createRow(response);
+        });
+  };
 
-    // // get 1 easy computers
+        // class Button {
+        //     constructor(type, value)
+        //     {
+        //         this.type = type;
+        //         this.value = value;
+        //     }
+        // };
+        
 
-    // var EasyCompQueryURL = "https://opentdb.com/api.php?amount=1&category=18&difficulty=easy&type=multiple";
 
-    // // get 1 medium computers
-    // var MedCompQueryURL = "https://opentdb.com/api.php?amount=1&category=18&difficulty=medium&type=multiple";
-    // // get 1 hard computers
-    // var HardCompQueryURL = "https://opentdb.com/api.php?amount=1&category=18&difficulty=hard&type=multiple";
+        // functions for passing values into other questions etc
+        // class answersObj {
+        //     // constructor() method accepts 2 parameters: question and arr
+        //     constructor(question, arr) {
+        //     // holds current question, answers
+        //     this.question = question;
+        //     this.arr = arr;
+        //     }
+        // }
+        
+        // var me stores an instance of my question class
+        // const me = new answersObj(rightAnswer);
+        // console.log(me.question)
 
-    // // get 1 easy ent
-
-    // var EasyEntQueryURL = "https://opentdb.com/api.php?amount=1&category=11&difficulty=easy&type=multiple";
-
-    // // get 1 medium ent
-
-    // var MedEntQueryURL = "https://opentdb.com/api.php?amount=1&category=11&difficulty=medium&type=multiple";
-
-    // // get 1 hard ent
-
-    // var HardEntQueryURL = "https://opentdb.com/api.php?amount=1&category=11&difficulty=hard&type=multiple";
-
+            
+        // });
+    // });
 
 </script>
 
 </body>
-// <script>
-
+<script>
 //     var seconds = 15,
 //         display = document.querySelector('#time');
 //     startTimer(seconds, display);
