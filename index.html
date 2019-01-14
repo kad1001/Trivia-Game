@@ -72,33 +72,18 @@
               </table>
 </div>
 
-<!-- <div class="container">
-    <div id="results">Here is where the money sum will go</div>
-</div>
-<div><p><span id="time"></span></p></div> -->
+<div class="container">
+    <h4>Money:</h4>
+    <p id="moneyDisplay"></p>
+</div> 
+<div><p><span id="time"></span></p></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">
- // The createRow function takes data returned by newTrivia and appends the table data to the tbody
-    // var createRow = function(data) {
 
-    // subject APIs
-    //  class FinalURL {
-    //      constructor(subject, difficulty) {
-    //          this._subject = subject;
-    //          this._difficulty = difficulty;
-    //      }
-    //  }
-    // // on #sci1button click
-    //  const easyScience = new FinalURL("");
-    //  const medScience = new FinalURL("");
-
-    // base query URL
-    // var easyBaseURL = ("https://opentdb.com/api.php?amount=1&category=" + subject + "&difficulty=" + easy + "&type=multiple");
-    // var medBaseURL = ("https://opentdb.com/api.php?amount=1&category=" + subject + "&difficulty=" + medium + "&type=multiple");
-    // var hardBaseURL = ("https://opentdb.com/api.php?amount=1&category=" + subject + "&difficulty=" + hard + "&type=multiple");
- //   global functions ----
+//   global functions ----
     //   shuffles questions
+    "use strict";
     function shuffle(array) {
         var currentIndex = array.length, temporaryValue, randomIndex;
         // While there remain elements to shuffle...
@@ -115,21 +100,59 @@
     };
 
         // creates multiple choice button, determines whether it is checked
-    function createRadioElement(name, checked) {
-        var radioHtml = '<input type="radio" name="' + name + '"';
-        if (checked) {
-            radioHtml += 'checked="checked"';
-            console.log(this)
-        }
-        radioHtml += '/>';
+    "use strict";
+    function createRadioElement(name, id, checked) {
+        var radioHtml = '<input type="radio" name="' + name + '" id="' + id + '" />';
+        // if (checked) {
+        //     radioHtml += 'checked="checked"';
+        //     return checked;
+        // }
+        // radioHtml += '/>';
 
         var radioFragment = document.createElement('div');
         radioFragment.innerHTML = radioHtml;
-
         return radioFragment.firstChild;
+        // document.getElementById("a1").addEventListener("click", function (){
+        //     console.log("hello!")
+        // });
+
     };
- 
+
+    "use strict";
+    function createButton(id, value){
+        var submitHtml = '<input type="button" id="' + id + '" value="Submit"';
+        submitHtml += '/>';
+
+        var buttonFragment = document.createElement('div');
+        buttonFragment.innerHTML = submitHtml;
+
+        return buttonFragment.firstElementChild;
+    };
+    
+    "use strict";
+    function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10)
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+
+        if (--timer < 0) {
+            timer = duration;
+            alert("time's up!")
+        }
+    }, 1000);
+
+};
+
+
     // global vars...
+    var money = 0;
+
     var subject;
     var difficulty;
     var queryURL = ("https://opentdb.com/api.php?amount=1&category=" + subject + difficulty + "&type=multiple");
@@ -142,12 +165,12 @@
     var compSubject = 11;
     var entSubject = 12;
 
+    // DOM vars
     var qSpot = $("#sciRow");
 
+    "use strict";
     var createRow = function(data){
-
         var tRow = $("<tr>");
-        
         // shuffling the order of answers in the answers array
         var question = (data.results[0].question);
         var incorrect_answers = (data.results[0].incorrect_answers);
@@ -157,25 +180,77 @@
         var arr = [incorrect_answers[0], incorrect_answers[1], incorrect_answers[2], correct_answer];
         arr = shuffle(arr);
         console.log(arr);
-
         $("#sciRow").text(question);
 
-        var a1 = $("#easySciQ").text(arr[0]).append(createRadioElement());
-        var a2 = $("#easyCompQ").text(arr[1]).append(createRadioElement());
-        var a3 = $("#medSciQ").text(arr[2]).append(createRadioElement());
-        var a4 = $("#medCompQ").text(arr[3]).append(createRadioElement());
 
+        $("#easySciQ").text(arr[0]).addClass("displayedChoice");
+
+        $("#easyCompQ").text(arr[1]).append(createRadioElement("name2", "id2", false));
+        $("#medSciQ").text(arr[2]).append(createRadioElement("name3", "id3", false));
+        $("#medCompQ").text(arr[3]);
+        // .append(createRadioElement("name4", "id4", false));
+
+        ("displayedChoice")
+        // create radio element for each answer in arr
+        // for (let x = 0; x < arr.length; x++){
+        // appendChild(createRadioElement())
+        // }
         
+        // .append(createRadioElement());
+    
+        var moneyDisplay = $("#moneyDisplay").text(money);
 
-        // Call .filter() on arr to find correct_answer and hold it in "correct"
+
+
+    
+        // Call .filter() on arr to find correct_answer and hold it in "rightAnswer"
         const rightAnswer = arr.filter(answers => {
         return answers == correct_answer;
         });
-        console.log(rightAnswer.checked)
+
+        console.log(rightAnswer)
+
+        // after submit
+        // call .filter() on guesses and hold it in "correctGuess"
+        
+
+        $("#hardEntQ").replaceWith(createButton("submit", "hi"));
+
+
+        "use strict";
+        $("#submit").click(function (radio1, radio2, radio3, radio4){
+            console.log(this)
+
+    // switch statement: evaluates the expression (rightAnswer is checked)
+    // find rightAnswer button, if it is checked after submit button is clicked, proceed with this..
+
+    // switch (expression) {
+    //     case true:
+        //  money++, break
+        // case false: money--, break
+
+    // }
+        });
+
+
+        // display = document.querySelector("#hardSciQ");
+        // // runs timer for 10 seconds
+        // startTimer(10, display);
+        // detetermines which radio button is clicked
+
+
+        // switch (createRadioElement.checked) {
+        //     case a1:
+        //     console.log("hey")
+        //     break;
+
+        // }
+            
     };
 
 
     // The newTrivia function takes a category and difficulty, searches the omdb api for it, and then passes the data to createRow
+    "use strict";
     var newTrivia = function(subject, difficulty) {
         var queryURL = ("https://opentdb.com/api.php?amount=1&category=" + subject + difficulty + "&type=multiple");
     $.ajax({
@@ -186,58 +261,11 @@
         });
   };
 
-        // class Button {
-        //     constructor(type, value)
-        //     {
-        //         this.type = type;
-        //         this.value = value;
-        //     }
-        // };
-        
+//   "use strict";
+//   $(document).ready(function(){});
 
-
-        // functions for passing values into other questions etc
-        // class answersObj {
-        //     // constructor() method accepts 2 parameters: question and arr
-        //     constructor(question, arr) {
-        //     // holds current question, answers
-        //     this.question = question;
-        //     this.arr = arr;
-        //     }
-        // }
-        
-        // var me stores an instance of my question class
-        // const me = new answersObj(rightAnswer);
-        // console.log(me.question)
-
-            
-        // });
-    // });
 
 </script>
 
 </body>
-<script>
-//     var seconds = 15,
-//         display = document.querySelector('#time');
-//     startTimer(seconds, display);
-
-// function startTimer(duration, display) {
-//     var timer = duration, minutes, seconds;
-//     setInterval(function () {
-//         minutes = parseInt(timer / 60, 10)
-//         seconds = parseInt(timer % 60, 10);
-
-//         minutes = minutes < 10 ? "0" + minutes : minutes;
-//         seconds = seconds < 10 ? "0" + seconds : seconds;
-
-//         display.textContent = minutes + ":" + seconds;
-
-//         if (--timer < 0) {
-//             timer = duration;
-//         }
-//     }, 1000);
-
-// </script>
-
 </html>
