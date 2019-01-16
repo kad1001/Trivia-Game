@@ -13,6 +13,8 @@
     <script src="https://code.jquery.com/jquery.js"></script>
     <!-- javascript -->
     <script src="assets/javascript/app.js"></script>
+    <!-- google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light" rel="stylesheet">
     <!-- bootstrap js -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
@@ -20,7 +22,10 @@
     <title>Jeopardy</title>
 </head>
 <body>
-<h1>Welcome to Jeopardy!</h1>
+<div class="container">
+    <img id="logo" src="assets/images/logo.png">
+</div>
+
 
 
 <div class="container" id="quiz">
@@ -36,236 +41,77 @@
                   </tr>
 
                 </thead>
+
+                <!-- this is where the json data will be pushed -->
+
+
+
                 <tbody id="questionsBody">
                     <!-- multiple choice option, tell correct answer (change font to correct question -> bold) -->
                     <!--$1000 questions  -->
                     <tr>
-                    <td id="easySciQ"> 
-                        <button class="button" onclick="newTrivia(scienceSubject, easy)">$1000</button>
+                    <td id="easySciQ" class="answerBtn" value="1000"> 
+                        <button class="button answerBtn" onclick="newTrivia(scienceSubject, easy)" value="1000">$1000</button>
                     </td>
-                    <td id="easyCompQ"> 
+                    <td id="easyCompQ" class="answerBtn money1"> 
                         <button class="button" onclick="newTrivia(compSubject, easy)">$1000</button>
                     </td>
-                    <td id="easyEntQ"> 
+                    <td id="easyEntQ" class="emptyBtn money1"> 
                         <button class="button" onclick="newTrivia(entSubject, easy)">$1000</button></td>
                   </tr>
                   <!-- $2000 -->
                   <tr>
-                        <td id="medSciQ"> 
+                        <td id="medSciQ" class="answerBtn money2"> 
                             <button class="button" onclick="newTrivia(scienceSubject, medium)">$2000</button>
                         </td>
-                        <td id="medCompQ"> 
+                        <td id="medCompQ" class="answerBtn money2"> 
                             <button class="button"onclick="newTrivia(compSubject, medium)">$2000</button></td>
-                        <td id="medEntQ"> 
+                        <td id="medEntQ" class="money2"> 
                             <button class="button"onclick="newTrivia(entSubject, medium)">$2000</button></td>
                     </tr>
                     <!-- $3000 -->
                     <tr>
-                        <td id="hardSciQ">
+                        <td id="hardSciQ" class="emptyBtn money3">
                                 <button class="button" onclick="newTrivia(scienceSubject, hard)">$3000</button></td>
-                        <td id="hardEntQ">
+                        <td id="hardEntQ" class="emptyBtn money3">
                             <button class="button" onclick="newTrivia(compSubject, hard)">$3000</button></td>
-                        <td id="hardCompQ">
+                        <td id="hardCompQ" class="emptyBtn money3">
                             <button class="button" onclick="newTrivia(entSubject, hard)">$3000</button></td>
                     </tr>
                 </tbody>
               </table>
+
 </div>
 
+
+
 <div class="container">
+
     <h4>Money:</h4>
     <p id="moneyDisplay"></p>
+    
 </div> 
-<div><p><span id="time"></span></p></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script type="text/javascript">
+<div class="answer-stuff container">
 
-//   global functions ----
-    //   shuffles questions
-    "use strict";
-    function shuffle(array) {
-        var currentIndex = array.length, temporaryValue, randomIndex;
-        // While there remain elements to shuffle...
-        while (0 !== currentIndex) {
-            // Pick a remaining element...
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex -= 1;
-            // And swap it with the current element.
-            temporaryValue = array[currentIndex];
-            array[currentIndex] = array[randomIndex];
-            array[randomIndex] = temporaryValue;
-        }
-        return array;
-    };
+        <h1 id="question">Let's Play!</h1>
 
-        // creates multiple choice button, determines whether it is checked
-    "use strict";
-    function createRadioElement(name, id, checked) {
-        var radioHtml = '<input type="radio" name="' + name + '" id="' + id + '" />';
-        // if (checked) {
-        //     radioHtml += 'checked="checked"';
-        //     return checked;
-        // }
-        // radioHtml += '/>';
+        <h4 id="option1"></h4>
+        <h4 id="option2"></h4>
+        <h4 id="option3"> </h4>
+        <h4 id="option4"> </h4>
 
-        var radioFragment = document.createElement('div');
-        radioFragment.innerHTML = radioHtml;
-        return radioFragment.firstChild;
-        // document.getElementById("a1").addEventListener("click", function (){
-        //     console.log("hello!")
-        // });
+        <input id="type-response" type="text">
+        <!-- submit button must be clicked within 10 seconds --> 
+        <button id="input-btn1" class="button"type="submit">Submit</button>
+        <!-- timer with 10 remaining seconds until alert -->
+        <!-- <p><span id="time"></span></p> -->
 
-    };
-
-    "use strict";
-    function createButton(id, value){
-        var submitHtml = '<input type="button" id="' + id + '" value="Submit"';
-        submitHtml += '/>';
-
-        var buttonFragment = document.createElement('div');
-        buttonFragment.innerHTML = submitHtml;
-
-        return buttonFragment.firstElementChild;
-    };
-    
-    "use strict";
-    function startTimer(duration, display) {
-    var timer = duration, minutes, seconds;
-    setInterval(function () {
-        minutes = parseInt(timer / 60, 10)
-        seconds = parseInt(timer % 60, 10);
-
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
-
-        display.textContent = minutes + ":" + seconds;
-
-        if (--timer < 0) {
-            timer = duration;
-            alert("time's up!")
-        }
-    }, 1000);
-
-};
+</div>
 
 
-    // global vars...
-    var money = 0;
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript"></script>
 
-    var subject;
-    var difficulty;
-    var queryURL = ("https://opentdb.com/api.php?amount=1&category=" + subject + difficulty + "&type=multiple");
-    // difficulty APIs
-    var easy = "&difficulty=easy";
-    var medium = "&difficulty=medium";
-    var hard = "&difficulty=hard";
-    //   subject APIs
-    var scienceSubject = 17;
-    var compSubject = 11;
-    var entSubject = 12;
-
-    // DOM vars
-    var qSpot = $("#sciRow");
-
-    "use strict";
-    var createRow = function(data){
-        var tRow = $("<tr>");
-        // shuffling the order of answers in the answers array
-        var question = (data.results[0].question);
-        var incorrect_answers = (data.results[0].incorrect_answers);
-        var correct_answer = (data.results[0].correct_answer);
-        console.log(question)
-        console.log(correct_answer);
-        var arr = [incorrect_answers[0], incorrect_answers[1], incorrect_answers[2], correct_answer];
-        arr = shuffle(arr);
-        console.log(arr);
-        $("#sciRow").text(question);
-
-
-        $("#easySciQ").text(arr[0]).addClass("displayedChoice");
-
-        $("#easyCompQ").text(arr[1]).append(createRadioElement("name2", "id2", false));
-        $("#medSciQ").text(arr[2]).append(createRadioElement("name3", "id3", false));
-        $("#medCompQ").text(arr[3]);
-        // .append(createRadioElement("name4", "id4", false));
-
-        ("displayedChoice")
-        // create radio element for each answer in arr
-        // for (let x = 0; x < arr.length; x++){
-        // appendChild(createRadioElement())
-        // }
-        
-        // .append(createRadioElement());
-    
-        var moneyDisplay = $("#moneyDisplay").text(money);
-
-
-
-    
-        // Call .filter() on arr to find correct_answer and hold it in "rightAnswer"
-        const rightAnswer = arr.filter(answers => {
-        return answers == correct_answer;
-        });
-
-        console.log(rightAnswer)
-
-        // after submit
-        // call .filter() on guesses and hold it in "correctGuess"
-        
-
-        $("#hardEntQ").replaceWith(createButton("submit", "hi"));
-
-
-        "use strict";
-        $("#submit").click(function (radio1, radio2, radio3, radio4){
-            console.log(this)
-
-    // switch statement: evaluates the expression (rightAnswer is checked)
-    // find rightAnswer button, if it is checked after submit button is clicked, proceed with this..
-
-    // switch (expression) {
-    //     case true:
-        //  money++, break
-        // case false: money--, break
-
-    // }
-        });
-
-
-        // display = document.querySelector("#hardSciQ");
-        // // runs timer for 10 seconds
-        // startTimer(10, display);
-        // detetermines which radio button is clicked
-
-
-        // switch (createRadioElement.checked) {
-        //     case a1:
-        //     console.log("hey")
-        //     break;
-
-        // }
-            
-    };
-
-
-    // The newTrivia function takes a category and difficulty, searches the omdb api for it, and then passes the data to createRow
-    "use strict";
-    var newTrivia = function(subject, difficulty) {
-        var queryURL = ("https://opentdb.com/api.php?amount=1&category=" + subject + difficulty + "&type=multiple");
-    $.ajax({
-        url: queryURL,
-        method: "GET"
-      }).then(function(response) {
-          createRow(response);
-        });
-  };
-
-//   "use strict";
-//   $(document).ready(function(){});
-
-
-</script>
 
 </body>
 </html>
