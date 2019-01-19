@@ -1,6 +1,8 @@
 body {
     box-sizing: border-box;    
     padding: 3%;
+    font-family: 'Times New Roman', Times, serif;
+    background-color: darkblue;
 }
 
 #logo {
@@ -22,15 +24,19 @@ td {
     text-align: center;
 }
 
-.button, #moneyDisplay {
+button, #moneyDisplay {
     background-color: darkblue;
     color: sandybrown;
-    font-size: 30px;
-    font-weight: 600;
-    font-family: 'Shadows Into Light', cursive;
+    font-size: 50px;
+    /* font-weight: 600; */
+    padding: 4%;
+    /* font-family: 'Shadows Into Light', cursive; */
+    /* font-family: 'Times New Roman', Times, serif; */
 
-}
+};
 
-.answerStuff {
-    margin-bottom: 30px;
+.answerQ {
+    width: 40%;
+    background-color: darkblue;
+    color: sandybrown;
 }

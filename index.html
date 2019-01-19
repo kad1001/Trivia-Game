@@ -26,10 +26,34 @@
     <img id="logo" src="assets/images/logo.png">
 </div>
 
+<!-- practice div -->
+<div id="practiceDiv" class="container">
+    <!--  question goes here -->
+    <h4 id="question"></h4>
+    <div class="containerFill">
+        <!-- answer buttons go here -->
+        <div class="row">
+                    <div id="btn1" class="button answerQ col">
+                        </div>
+                        <div id="btn2" class="button answerQ wrong col"> </div>
+            </div>
+
+            <div class="row">
+            <div id="btn3" class="button answerQ wrong col">        
+                </div>
+
+                <div id="btn4" class="button answerQ wrong col">
+                    </div>
+            </div>
+        </div>     
+</div>
+<div id="time" class="container">
+    <h4 id="showTimer"></h4>
+
+</div>
 
 
 <div class="container" id="quiz">
-
         <table class="table">
                 <thead>
                     <!-- questions row -->
@@ -41,17 +65,11 @@
                   </tr>
 
                 </thead>
-
-                <!-- this is where the json data will be pushed -->
-
-
-
                 <tbody id="questionsBody">
-                    <!-- multiple choice option, tell correct answer (change font to correct question -> bold) -->
                     <!--$1000 questions  -->
                     <tr>
                     <td id="easySciQ" class="answerBtn" value="1000"> 
-                        <button class="button answerBtn" onclick="newTrivia(scienceSubject, easy)" value="1000">$1000</button>
+                        <button class="button answerBtn" onclick="newTrivia(scienceSubject, easy)">$1000</button>
                     </td>
                     <td id="easyCompQ" class="answerBtn money1"> 
                         <button class="button" onclick="newTrivia(compSubject, easy)">$1000</button>
@@ -66,7 +84,7 @@
                         </td>
                         <td id="medCompQ" class="answerBtn money2"> 
                             <button class="button"onclick="newTrivia(compSubject, medium)">$2000</button></td>
-                        <td id="medEntQ" class="money2"> 
+                        <td id="medEntQ" class="emptyBtn money2"> 
                             <button class="button"onclick="newTrivia(entSubject, medium)">$2000</button></td>
                     </tr>
                     <!-- $3000 -->
@@ -80,38 +98,15 @@
                     </tr>
                 </tbody>
               </table>
+    </div>
 
-</div>
-
-
-
-<div class="container">
-
+<div class="moneyContainer container">
     <h4>Money:</h4>
-    <p id="moneyDisplay"></p>
-    
+    <p id="moneyDisplay"></p>  
 </div> 
-
-<div class="answer-stuff container">
-
-        <h1 id="question">Let's Play!</h1>
-
-        <h4 id="option1"></h4>
-        <h4 id="option2"></h4>
-        <h4 id="option3"> </h4>
-        <h4 id="option4"> </h4>
-
-        <input id="type-response" type="text">
-        <!-- submit button must be clicked within 10 seconds --> 
-        <button id="input-btn1" class="button"type="submit">Submit</button>
-        <!-- timer with 10 remaining seconds until alert -->
-        <!-- <p><span id="time"></span></p> -->
-
-</div>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript"></script>
-
 
 </body>
 </html>
