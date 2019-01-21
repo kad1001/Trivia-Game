@@ -1,7 +1,6 @@
 body {
     box-sizing: border-box;    
     padding: 3%;
-    font-family: 'Times New Roman', Times, serif;
     background-color: darkblue;
 }
 
@@ -15,21 +14,22 @@ td {
 }
 
 .container {
-    /* margin-top: 20px;
-    margin-left: 40px;
-    /* margin-bottom: 0px;  */
     background-color: darkblue;
     color: sandybrown;
     border: 1px solid grey;
     text-align: center;
+    font-size: 30px;
+
+    font-family: 'Anton', sans-serif;
 }
 
 button, #moneyDisplay {
     background-color: darkblue;
     color: sandybrown;
-    font-size: 50px;
+    font-size: 300px;
     /* font-weight: 600; */
     padding: 4%;
+    font-family: 'Anton', sans-serif;
     /* font-family: 'Shadows Into Light', cursive; */
     /* font-family: 'Times New Roman', Times, serif; */
 
