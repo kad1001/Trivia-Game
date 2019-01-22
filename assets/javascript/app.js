@@ -47,12 +47,9 @@ function shuffle(array) {
     return array;
     };
 
- 
- // resets game variables
- // shows quiz page & money container
 
 $("#moneyDisplay").append(money);
-$("#practiceDiv").hide();
+
 function newTrivia(subject, difficulty){
     var queryURL = ("https://opentdb.com/api.php?amount=1&category=" + subject + difficulty + "&type=multiple");
     $.ajax({
@@ -61,6 +58,7 @@ function newTrivia(subject, difficulty){
     // passes the data to createButtons
   }).then(function(response){
       createButtons(response);
+    //   restartGame(response);
      });
 };
      // data displayed on buttons on screen
@@ -70,87 +68,94 @@ function newTrivia(subject, difficulty){
         // json
         var question = results.question;
         var difficulty = results.difficulty;
-
+        console.log(difficulty);
 
         var correct_answer = results.correct_answer;
         var incorrect_answer1 = results.incorrect_answers[0];
         var incorrect_answer2 = results.incorrect_answers[1];
         var incorrect_answer3 = results.incorrect_answers[2];
-                    // determining value of buttons
-                    switch (difficulty) {
-                        case ("easy"):
-                            value = 1000;
-                            console.log("question value:", value);
-                        break;
-                        case("medium"):
-                            value = 2000;
-                            console.log("question value:", value);
-                        break;
-                        case("hard"):
-                            value = 3000;
-                            console.log("question value:", value);
-        
-                        break;
-                    };
 
         // display timer
-        var time = startTimer(10, 0);
+        // display = document.querySelector('#time');
+        // var time = startTimer(10, display);
         
-        $("#showTimer").append(time);
+        // $("#showTimer").append(time);
         // alerts the user "time's up" after 10 seconds
         
+        // hides  quiz layout
        $("#quiz").hide();
+
+    //    creates new div for dynamic info
+    var buttonDiv = $("<div>");
+
+    //    displays question
        $("#question").text(question);
 
-       var button1 = $("<button>").text(correct_answer);
-            $(this).attr("id", "correct");
-        var button2 = $("<button>").text(incorrect_answer1);
-               //  $(this).attr("val", difficulty);
-       var button3 = $("<button>").text(incorrect_answer2);
-           //  $(this).attr("val", difficulty);
-        var button4 = $("<button>").text(incorrect_answer3);
-               //  $(this).attr("val", difficulty);
-        buttonsArray = [];
-        buttonsArray.push(button1, button2, button3, button4);
+    // puts each incorrect answer in an array that will give it a button
+        incbuttonsArray = [];
+        incbuttonsArray.push(incorrect_answer1, incorrect_answer2, incorrect_answer3);
+        // buttonsArray = shuffle(buttonsArray);
+        // give each answer a button
+        for (let v = 0; v < incbuttonsArray.length; v++){
+            var buttonInc = $("<button>").append(incbuttonsArray[v]);
+            // append each button to buttons div
+            $(buttonDiv).append(buttonInc);
+            // assign buttoninc an id attribute of its element
+            $(buttonInc).attr("id", "incorrect");
+        };
+
+        // create seperate btn for correct answer
+        var correctB = $("<button>").append(correct_answer);
+        // assign this an id to track
+        $(correctB).attr("id", correct_answer);
+
+        // make array to shuffle order of questions
+        newArray = [buttonInc, correctB];
+        newArray = shuffle(newArray);
+
+        // add this to the button div
+        $(buttonDiv).append(newArray);
+
+    // append buttonDiv to practiceDiv
+    $("#practiceDiv").append(buttonDiv);
+
+    // function for answer selection
+
+    // ends the timeout
+    // updates money
+    // restarts game
+
+    // parent div event listener
+    document.getElementById("practiceDiv").addEventListener("click", function(e){
+
+    // alerts the user of whether they were correct or not
+            // e.srcElement was the clicked element
+        if (e.srcElement.id == correct_answer) {
+            console.log("Correct answer!");
+            };
+        if (e.srcElement.id == "incorrect") {
+            console.log("Sorry, wrong answer");
+        }
+    })
 
 
-        console.log(difficulty);
-   
-        // shuffle
-        buttonsArray = shuffle(buttonsArray);
-        // each div id in DOM is replaced with text from buttons array
-        $("#btn1").append(buttonsArray[0]);
-        $("#btn2").append(buttonsArray[1]);
-        $("#btn3").append(buttonsArray[2]);
-        $("#btn4").append(buttonsArray[3]);
+        // $(correctB).click(function(){
+        //     console.log("correct answer clicked");
+        // })
+
 
 
         // function for clicking correct button
-        $(button1).on("click",function(){
-            alert("Correct!"); 
-            money = money += difficulty.value;
-            $("#moneyDisplay").text(money);
+        // $(button1).on("click",function(){
+        //     alert("Correct!"); 
+        //     $(buttonsArray).empty;
+        //     // money = money += difficulty.value;
 
+        //     $("#praciceDiv").empty();
+        //     $("#quiz").show();
+        // });
 
-            $("#praciceDiv").empty();
-            $("#quiz").show();
-        });
-
-
-        $(".wrong").on("click", function(){
-            alert("Incorrect!");
-            money = money -= difficulty.value;
-            $("#moneyDisplay").text(money);
-
-
-            $("#praciceDiv").empty();
-            $("#quiz").show();
-        });  
     };
-
-
-
-
 
 
 // // called if user clicks correct answer
