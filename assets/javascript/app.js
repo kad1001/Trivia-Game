@@ -12,22 +12,22 @@ var easy;
 
     // timer function
 
-    function startTimer(duration, display) {
-        var timer = duration, minutes, seconds;
-        setInterval(function () {
-            minutes = parseInt(timer / 60, 10)
-            seconds = parseInt(timer % 60, 10);
+    // function startTimer(duration, display) {
+    //     var timer = duration, minutes, seconds;
+    //     setInterval(function () {
+    //         minutes = parseInt(timer / 60, 10)
+    //         seconds = parseInt(timer % 60, 10);
     
-            minutes = minutes < 10 ? "0" + minutes : minutes;
-            seconds = seconds < 10 ? "0" + seconds : seconds;
+    //         minutes = minutes < 10 ? "0" + minutes : minutes;
+    //         seconds = seconds < 10 ? "0" + seconds : seconds;
     
-            display.textContent = minutes + ":" + seconds;
+    //         display.textContent = minutes + ":" + seconds;
     
-            if (--timer < 0) {
-                timer = duration;
-            }
-        }, 1000);
-    };
+    //         if (--timer < 0) {
+    //             timer = duration;
+    //         }
+    //     }, 1000);
+    // };
     
 // this will shuffle the answers
 function shuffle(array) {
@@ -188,7 +188,7 @@ function newTrivia(subject, difficulty){
             // e.srcElement was the clicked element
         if (e.srcElement.id == correct_answer) {
             console.log("Correct answer!");
-            alert("CORRECT!")
+            alert("CORRECT!");
             addMoney();
             // empty button div
             $(buttonDiv).empty();
@@ -198,7 +198,7 @@ function newTrivia(subject, difficulty){
             };
         if (e.srcElement.id == "incorrect") {
             console.log("Sorry, wrong answer");
-            alert("NOPE!")
+            alert("NOPE!");
             subtractMoney();
             $(buttonDiv).empty();
             $("#quiz").show();
