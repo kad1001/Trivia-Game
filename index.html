@@ -27,7 +27,7 @@
 <div class="container">
     <img id="logo" src="assets/images/logo.png">
 </div>
-<!-- <div><span id="time">00:10</span></div> -->
+<div><span id="time">00:10</span></div>
 <!-- practice div -->
 <div id="practiceDiv" class="container">
     <!--  question goes here -->
@@ -41,41 +41,41 @@
                     <!-- questions row -->
                   <tr id="sciRow">
                     <!-- The scope attribute specifies that this is a header for a column -->
-                    <th scope="col" class="whitefont">Sciens</th>
-                    <th scope="col" class="whitefont">Aminols</th>
-                    <th scope="col" class="whitefont">movie</th>
+                    <th scope="col" class="whitefont">Science</th>
+                    <th scope="col" class="whitefont">Animals</th>
+                    <th scope="col" class="whitefont">Music</th>
                   </tr>
 
                 </thead>
                 <tbody id="questionsBody">
                     <!--$1000 questions  -->
                     <tr>
-                    <td id="easySciQ" class="answerBtn"> 
+                    <td id="easySciQ"> 
                         <button class="button answerBtn" onclick="newTrivia(scienceSubject, easy)">$1000</button>
                     </td>
-                    <td id="easyCompQ" class="answerBtn money1"> 
+                    <td id="easyCompQ"> 
                         <button class="button" onclick="newTrivia(compSubject, easy)">$1000</button>
                     </td>
-                    <td id="easyEntQ" class="emptyBtn money1"> 
+                    <td id="easyEntQ""> 
                         <button class="button" onclick="newTrivia(entSubject, easy)">$1000</button></td>
                   </tr>
                   <!-- $2000 -->
                   <tr>
-                        <td id="medSciQ" class="answerBtn money2"> 
+                        <td id="medSciQ"> 
                             <button class="button" onclick="newTrivia(scienceSubject, medium)">$2000</button>
                         </td>
-                        <td id="medCompQ" class="answerBtn money2"> 
+                        <td id="medCompQ"> 
                             <button class="button" onclick="newTrivia(compSubject, medium)">$2000</button></td>
-                        <td id="medEntQ" class="emptyBtn money2"> 
+                        <td id="medEntQ"> 
                             <button class="button" onclick="newTrivia(entSubject, medium)">$2000</button></td>
                     </tr>
                     <!-- $3000 -->
                     <tr>
-                        <td id="hardSciQ" class="emptyBtn money3">
+                        <td id="hardSciQ"">
                                 <button class="button" onclick="newTrivia(scienceSubject, hard)">$3000</button></td>
-                        <td id="hardEntQ" class="emptyBtn money3">
+                        <td id="hardEntQ">
                             <button class="button" onclick="newTrivia(compSubject, hard)">$3000</button></td>
-                        <td id="hardCompQ" class="emptyBtn money3">
+                        <td id="hardCompQ">
                             <button class="button" onclick="newTrivia(entSubject, hard)">$3000</button></td>
                     </tr>
                 </tbody>
@@ -83,10 +83,10 @@
     </div>
 
 
-<div class="moneyContainer container">
-    <h4>Money:</h4>
-    <p id="moneyDisplay"></p>  
-</div> 
+<!-- <div class="moneyContainer container"> -->
+    <!-- <h4>Money:</h4> -->
+    <!-- <p id="moneyDisplay"></p>   -->
+<!-- </div>  -->
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript"></script>
