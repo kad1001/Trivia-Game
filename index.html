@@ -14,7 +14,9 @@
     <!-- javascript -->
     <script src="assets/javascript/app.js"></script>
     <!-- google fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Anton|Aleo:300,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Rancho&effect=3d-float" rel="stylesheet">
+
     <!-- bootstrap js -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
@@ -25,50 +27,30 @@
 <div class="container">
     <img id="logo" src="assets/images/logo.png">
 </div>
-
+<!-- <div><span id="time">00:10</span></div> -->
 <!-- practice div -->
 <div id="practiceDiv" class="container">
     <!--  question goes here -->
-    <h4 id="question"></h4>
-    <div class="containerFill">
-        <!-- answer buttons go here -->
-        <div class="row">
-                    <div id="btn1" class="button answerQ col">
-                        </div>
-                        <div id="btn2" class="button answerQ wrong col"> </div>
-            </div>
-
-            <div class="row">
-            <div id="btn3" class="button answerQ wrong col">        
-                </div>
-
-                <div id="btn4" class="button answerQ wrong col">
-                    </div>
-            </div>
-        </div>     
-</div>
-<div id="time" class="container">
-    <h4 id="showTimer"></h4>
+            <!-- timer -->
 
 </div>
-
 
 <div class="container" id="quiz">
         <table class="table">
-                <thead>
+                <thead class="whitefont">
                     <!-- questions row -->
                   <tr id="sciRow">
                     <!-- The scope attribute specifies that this is a header for a column -->
-                    <th scope="col">Science</th>
-                    <th scope="col">Computers</th>
-                    <th scope="col">Film</th>
+                    <th scope="col" class="whitefont">Sciens</th>
+                    <th scope="col" class="whitefont">Aminols</th>
+                    <th scope="col" class="whitefont">movie</th>
                   </tr>
 
                 </thead>
                 <tbody id="questionsBody">
                     <!--$1000 questions  -->
                     <tr>
-                    <td id="easySciQ" class="answerBtn" value="1000"> 
+                    <td id="easySciQ" class="answerBtn"> 
                         <button class="button answerBtn" onclick="newTrivia(scienceSubject, easy)">$1000</button>
                     </td>
                     <td id="easyCompQ" class="answerBtn money1"> 
@@ -83,9 +65,9 @@
                             <button class="button" onclick="newTrivia(scienceSubject, medium)">$2000</button>
                         </td>
                         <td id="medCompQ" class="answerBtn money2"> 
-                            <button class="button"onclick="newTrivia(compSubject, medium)">$2000</button></td>
+                            <button class="button" onclick="newTrivia(compSubject, medium)">$2000</button></td>
                         <td id="medEntQ" class="emptyBtn money2"> 
-                            <button class="button"onclick="newTrivia(entSubject, medium)">$2000</button></td>
+                            <button class="button" onclick="newTrivia(entSubject, medium)">$2000</button></td>
                     </tr>
                     <!-- $3000 -->
                     <tr>
@@ -99,6 +81,7 @@
                 </tbody>
               </table>
     </div>
+
 
 <div class="moneyContainer container">
     <h4>Money:</h4>

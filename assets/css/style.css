@@ -10,30 +10,38 @@ body {
 }
 td {
     font-weight: 600;
+    background-color: darkblue;
     /* padding: 5%; */
+}
+
+tr {
+    background-color: darkblue;
 }
 
 .container {
     background-color: darkblue;
     color: sandybrown;
-    border: 1px solid grey;
     text-align: center;
     font-size: 30px;
-
     font-family: 'Anton', sans-serif;
 }
 
 button, #moneyDisplay {
     background-color: darkblue;
     color: sandybrown;
-    font-size: 300px;
-    /* font-weight: 600; */
-    padding: 4%;
+    padding: 1%;
     font-family: 'Anton', sans-serif;
-    /* font-family: 'Shadows Into Light', cursive; */
-    /* font-family: 'Times New Roman', Times, serif; */
+}
 
-};
+.whitefont, #practiceDiv {
+    font-family: 'Aleo', serif;
+    color: white;
+    text-transform: uppercase;
+
+}
+/* #practiceDiv {
+font-size: 40px;
+} */
 
 .answerQ {
     width: 40%;
