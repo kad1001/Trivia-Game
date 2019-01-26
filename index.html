@@ -27,11 +27,12 @@
 <div class="container">
     <img id="logo" src="assets/images/logo.png">
 </div>
-<div><span id="time">00:10</span></div>
+
 <!-- practice div -->
 <div id="practiceDiv" class="container">
     <!--  question goes here -->
             <!-- timer -->
+            <span id="time"></span>
 
 </div>
 
@@ -51,32 +52,32 @@
                     <!--$1000 questions  -->
                     <tr>
                     <td id="easySciQ"> 
-                        <button class="button answerBtn" onclick="newTrivia(scienceSubject, easy)">$1000</button>
+                        <button class="button qBtn" onclick="newTrivia(scienceSubject, easy)">$1000</button>
                     </td>
                     <td id="easyCompQ"> 
-                        <button class="button" onclick="newTrivia(compSubject, easy)">$1000</button>
+                        <button class="button qBtn" onclick="newTrivia(compSubject, easy)">$1000</button>
                     </td>
-                    <td id="easyEntQ""> 
-                        <button class="button" onclick="newTrivia(entSubject, easy)">$1000</button></td>
+                    <td id="easyEntQ"> 
+                        <button class="button qBtn" onclick="newTrivia(entSubject, easy)">$1000</button></td>
                   </tr>
                   <!-- $2000 -->
                   <tr>
                         <td id="medSciQ"> 
-                            <button class="button" onclick="newTrivia(scienceSubject, medium)">$2000</button>
+                            <button class="button qBtn" onclick="newTrivia(scienceSubject, medium)">$2000</button>
                         </td>
                         <td id="medCompQ"> 
-                            <button class="button" onclick="newTrivia(compSubject, medium)">$2000</button></td>
+                            <button class="button qBtn" onclick="newTrivia(compSubject, medium)">$2000</button></td>
                         <td id="medEntQ"> 
-                            <button class="button" onclick="newTrivia(entSubject, medium)">$2000</button></td>
+                            <button class="button qBtn" onclick="newTrivia(entSubject, medium)">$2000</button></td>
                     </tr>
                     <!-- $3000 -->
                     <tr>
                         <td id="hardSciQ"">
-                                <button class="button" onclick="newTrivia(scienceSubject, hard)">$3000</button></td>
+                                <button class="button qBtn" onclick="newTrivia(scienceSubject, hard)">$3000</button></td>
                         <td id="hardEntQ">
-                            <button class="button" onclick="newTrivia(compSubject, hard)">$3000</button></td>
+                            <button class="button qBtn" onclick="newTrivia(compSubject, hard)">$3000</button></td>
                         <td id="hardCompQ">
-                            <button class="button" onclick="newTrivia(entSubject, hard)">$3000</button></td>
+                            <button class="button qBtn" onclick="newTrivia(entSubject, hard)">$3000</button></td>
                     </tr>
                 </tbody>
               </table>

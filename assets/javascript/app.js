@@ -1,4 +1,4 @@
-
+// global variables
 var easy;
 var medium;
 var hard;
@@ -9,30 +9,32 @@ var scienceSubject = 17;
 var compSubject = 27;
 var entSubject = 12;
 var time;
-   // initial money count
-   var money = 0;
+//  var money = 0;
+// 10 second timer
+var counter = 10;
 
-   // timer function
+//  this runs the timer when a question button is clicked
+$(document).on("click", ".qBtn", function(){
 
-   function startTimer(duration, display) {
-       var timer = duration, minutes, seconds;
-       setInterval(function () {
-           minutes = parseInt(timer / 60, 10)
-           seconds = parseInt(timer % 60, 10);
-   
-           minutes = minutes < 10 ? "0" + minutes : minutes;
-           seconds = seconds < 10 ? "0" + seconds : seconds;
-   
-           display.textContent = minutes + ":" + seconds;
-   
-           if (--timer < 0) {
-               timer = duration;
-               console.log("time's up!")
-           }
-       }, 1000);
-   };
-   
-// this will shuffle the answers
+    setInterval(function() {
+        counter--;
+        if (counter >= 0) {
+            // displays countdown
+          $("#time").text(counter);
+        }
+        if (counter === 0) {
+          alert('times up!');
+          clearInterval(counter);
+        //   empties practice div
+        $("#practiceDiv").empty();
+        $("#quiz").show();
+        }
+      //   counts down every 1 second
+      }, 1000);
+});
+
+
+// this will shuffle the array of answer buttons
 function shuffle(array) {
    var currentIndex = array.length, temporaryValue, randomIndex;
    // While there remain elements to shuffle...
@@ -49,13 +51,15 @@ function shuffle(array) {
    };
 
 
-
-// this function runs when the user clicks on a answer with the class "answers"
+// this runs when the user clicks on a answer with the class "answers" (when they guess on a question)
 $(document).on("click", ".answers", function(){
+    // stops the timer
+clearInterval(counter);
+
+    // determines whether they were correct and returns to home screen
     switch (($(this).attr("data-answer"))) {
      case ("correct"):
-         console.log("Correct answer!");
-         alert("correct!");
+        alert("correct!");
         //  money++;
         //  $("#moneyDisplay").text(("$") + money);
          $("#practiceDiv").empty();
@@ -63,17 +67,16 @@ $(document).on("click", ".answers", function(){
      break;
 
      case ("incorrect"):
-         console.log("incorrect answer");
-         alert("Wrong!")
+         alert("Wrong!");
         // money--;
         // $("#moneyDisplay").text(("$") + money);
          $("#practiceDiv").empty();
-
          $("#quiz").show();
      break;
     };
  });
 
+//  retrieves info from button pressed and adjusts query url to return appropriate data
 function newTrivia(subject, difficulty){
    var queryURL = ("https://opentdb.com/api.php?amount=1&category=" + subject + difficulty + "&type=multiple");
    $.ajax({
@@ -81,12 +84,9 @@ function newTrivia(subject, difficulty){
    method: "GET"
    // passes the data to createButtons
  }).then(function(data){
-    //  display = $("#time")
-    //  seconds = 10;
-    //  startTimer(seconds, display);
+
     // data displayed on buttons on screen 
        var results = data.results[0];
-       // json
        var question = results.question;
        var difficulty = results.difficulty;
        console.log(difficulty);
@@ -98,17 +98,25 @@ function newTrivia(subject, difficulty){
        // hides  quiz layout
       $("#quiz").hide();
 
+    //   new p for timer
+    var timerP = $("<p>");
+    // give timerP an id so the function can hook to it
+    $(timerP).attr("id", "newTime");
    //    creates new div for dynamic info
-   var buttonDiv = $("<div>");
+    var buttonDiv = $("<div>");
+//    append timer to this div
+    $(buttonDiv).append(timerP);
    // new header for question
    var header = $("<h2>");
-   //    displays question
+   //   displays question
    $(header).text(question);
    // assign whitefont class for css
    $(header).attr("class", "whitefont");
    $(header).attr("class", "font-effect-3d-float");
    // append header to buttondiv
    $(buttonDiv).append(header);
+
+
 
    // puts each incorrect answer in an array that will give it a button
        incbuttonsArray = [];
@@ -148,6 +156,11 @@ function newTrivia(subject, difficulty){
 
    // append buttonDiv to practiceDiv
    $("#practiceDiv").append(buttonDiv);
+
+});
+};
+
+
    // parent div event listener
 //    function addMoney(difficulty){
 //     if (difficulty == "medium"){
@@ -187,5 +200,3 @@ function newTrivia(subject, difficulty){
 //     };
 //     console.log(money);
 // };
-    });
-};
