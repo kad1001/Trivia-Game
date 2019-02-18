@@ -8,87 +8,98 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <!-- bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery.js"></script>
     <!-- javascript -->
     <script src="assets/javascript/app.js"></script>
+    <!-- <script src="./dynamic.js"></script> -->
     <!-- google fonts -->
     <link href="https://fonts.googleapis.com/css?family=Anton|Aleo:300,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Rancho&effect=3d-float" rel="stylesheet">
-
     <!-- bootstrap js -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    
     <title>Jeopardy</title>
+
 </head>
+
 <body>
+
 <div class="container">
+
     <img id="logo" src="assets/images/logo.png">
+
+        <!-- money tracked here -->
+        <span id="score"></span>
 </div>
 
 <!-- practice div -->
 <div id="practiceDiv" class="container">
+
     <!--  question goes here -->
-            <!-- timer -->
-            <span id="time"></span>
+    <!-- timer -->
+    <span id="time"></span>
 
 </div>
 
 <div class="container" id="quiz">
+
         <table class="table">
+
                 <thead class="whitefont">
+                    
                     <!-- questions row -->
                   <tr id="sciRow">
                     <!-- The scope attribute specifies that this is a header for a column -->
-                    <th scope="col" class="whitefont">Science</th>
-                    <th scope="col" class="whitefont">Animals</th>
-                    <th scope="col" class="whitefont">Music</th>
+                    <!-- <th id ="cat1" scope="col" class="whitefont"></th> -->
+                    <!-- <th id="cat2" scope="col" class="whitefont"></th> -->
+                    <!-- <th scope="col" class="whitefont"></th> -->
                   </tr>
 
                 </thead>
                 <tbody id="questionsBody">
                     <!--$1000 questions  -->
                     <tr>
-                    <td id="easySciQ"> 
-                        <button class="button qBtn" onclick="newTrivia(scienceSubject, easy)">$1000</button>
+                    <td id="easy1"> 
+                        <button value="1000" class="easy button qBtn col1" onclick="show()">$1000</button>
                     </td>
-                    <td id="easyCompQ"> 
-                        <button class="button qBtn" onclick="newTrivia(compSubject, easy)">$1000</button>
+                    <td> 
+                        <button id="easy2" value="1000" class="easy button qBtn">$1000</button>
                     </td>
-                    <td id="easyEntQ"> 
-                        <button class="button qBtn" onclick="newTrivia(entSubject, easy)">$1000</button></td>
+                    <td> 
+                        <button id="easy3" value="1000" class="easy button qBtn">$1000</button></td>
                   </tr>
                   <!-- $2000 -->
                   <tr>
                         <td id="medSciQ"> 
-                            <button class="button qBtn" onclick="newTrivia(scienceSubject, medium)">$2000</button>
+                            <button class="button qBtn col1">$2000</button>
                         </td>
                         <td id="medCompQ"> 
-                            <button class="button qBtn" onclick="newTrivia(compSubject, medium)">$2000</button></td>
+                            <button class="button qBtn">$2000</button></td>
                         <td id="medEntQ"> 
-                            <button class="button qBtn" onclick="newTrivia(entSubject, medium)">$2000</button></td>
+                            <button class="button qBtn">$2000</button></td>
                     </tr>
                     <!-- $3000 -->
                     <tr>
-                        <td id="hardSciQ"">
-                                <button class="button qBtn" onclick="newTrivia(scienceSubject, hard)">$3000</button></td>
+                        <td id="hardSciQ">
+                                <button class="button qBtn col1">$3000</button></td>
                         <td id="hardEntQ">
-                            <button class="button qBtn" onclick="newTrivia(compSubject, hard)">$3000</button></td>
+                            <button class="button qBtn">$3000</button></td>
                         <td id="hardCompQ">
-                            <button class="button qBtn" onclick="newTrivia(entSubject, hard)">$3000</button></td>
+                            <button class="button qBtn">$3000</button></td>
                     </tr>
                 </tbody>
               </table>
+                  <!-- win or lose alert -->
+    <span id="winLose"></span>
     </div>
 
-
-<!-- <div class="moneyContainer container"> -->
-    <!-- <h4>Money:</h4> -->
-    <!-- <p id="moneyDisplay"></p>   -->
-<!-- </div>  -->
-
+    <div>
+        Money Won: <span id="moneyWon"></span>
+        Money Lost: <span id="moneyLost"
+            ></span>    </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript"></script>
 

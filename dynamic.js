@@ -8,9 +8,30 @@ var medium = "&difficulty=medium";
 var hard = "&difficulty=hard";
 
 //   subject APIs
-var scienceSubject = 17;
-var compSubject = 11;
-var entSubject = 12;
+// var scienceSubject = 17;
+// var compSubject = 11;
+// var entSubject = 12;
+var catNumb = Math.floor(Math.random() * 32) + 9; // returns a random integer from 9 to 32, the categories obviously
+
+// // get it girl
+// var axios = require('axios');
+
+// window.onload = function (){
+
+//   axios.get("https://opentdb.com/api.php?amount=1", {
+//     params: {
+//       category: catNumb,
+//     }
+
+//   })
+
+//   .then(function(response) {
+//     console.log(response);
+//   })
+
+// }
+
+
 
         var answers = $(this).attr("data-name");
         var queryURL = ("https://opentdb.com/api.php?amount=1&category=" + subject + difficulty + "&type=multiple");
@@ -66,7 +87,7 @@ var entSubject = 12;
           $("#movies-view").prepend(movieDiv);
         });
 
-      }
+      // }
 
       // Function for displaying movie data
       function renderButtons() {

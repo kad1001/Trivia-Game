@@ -33,7 +33,7 @@ button, #moneyDisplay {
     font-family: 'Anton', sans-serif;
 }
 
-.whitefont, #practiceDiv {
+.whitefont, #practiceDiv, #score {
     font-family: 'Aleo', serif;
     color: white;
     text-transform: uppercase;
