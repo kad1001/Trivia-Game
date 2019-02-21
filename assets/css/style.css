@@ -24,14 +24,27 @@ tr {
     text-align: center;
     font-size: 30px;
     font-family: 'Anton', sans-serif;
+    float: right;
 }
 
-button, #moneyDisplay {
+button, #rowOne thead .table  {
     background-color: darkblue;
     color: sandybrown;
-    padding: 1%;
+   
     font-family: 'Anton', sans-serif;
+    float: right;
 }
+
+button #rowOne .table thead :after {
+    content: "";
+    clear: both;
+    display: table;
+    }
+
+    table .table #quiz .container{
+        width: 2000px;
+    }
+
 
 .whitefont, #practiceDiv, #score {
     font-family: 'Aleo', serif;
