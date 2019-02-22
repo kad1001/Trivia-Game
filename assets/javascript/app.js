@@ -1,3 +1,5 @@
+// import { setPriority } from "os";
+
 var time;
 moneyWon = [];
 moneyLost = [];
@@ -11,22 +13,36 @@ var th3 = $("<th>");
 
 var headers = [th1, th2, th3];
 
+
+
 var body = $("#tBody");
-// var easyOne = $(".easyOne")
 
-// var columnOneDivs = [$("")]
 
-// storing category numbers
-// this way we can access them in the array and call a new ajax request on them
-// this can be done by matching the col of the button from getValue() to the designated category number in all
+// =====================
+// arrays
+// ================
 var all = [];
 
 var buttonsArr = [];
 
 
 
-// onclick function to get column
-
+// this will shuffle the answers
+function shuffle(array) {
+    var currentIndex = array.length,
+        temporaryValue, randomIndex;
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+    return array;
+};
 
 
 // gets random category number to plug in for url
@@ -38,8 +54,8 @@ function getRndInt(min, max) {
 // constructor for Categroy
 function Category(Name, question, correct_answer, incorrect_answers, difficulty) {
     this.Name = Name,
-    this.question = question,
-    this.correct_answer = correct_answer,
+        this.question = question,
+        this.correct_answer = correct_answer,
         this.incorrect_answers = incorrect_answers,
         this.difficulty = difficulty
 
@@ -58,7 +74,12 @@ function newCat() {
         method: "GET"
     }).then(function (response) {
 
+        // console.log(response.results[0]);
         catfunction1(response);
+
+        catfunction2(response);
+
+        // new Category(response.)
 
     });
 };
@@ -75,6 +96,7 @@ for (var a = 0; a < headers.length; a++) {
     var catNumb = getRndInt(9, 32);
 
     newCat();
+    // newCat();
 
 };
 
@@ -105,22 +127,82 @@ function catfunction1(data) {
     all.push(category);
     console.log(all);
 
-    
+
     var question = $("<button>").text("$1000");
+
+    $(question).attr("class", "button is-large");
+
+
     console.log(category.question);
 
-    for (let w = 0; w < all.length; w++ ) {
+    var answersArr = [];
+    answersArr.push(category.incorrect_answers, category.correct_answer);
+    var concatArr = answersArr[0].concat(answersArr[1]);
 
-        var button = $(question);
-        button.click(function() {
-            
-            $(question).text(category.question)
+    console.log(concatArr);
+
+    shuffle(concatArr);
+
+    console.log(concatArr);
 
 
+    // please append these to the response div
+    function please() {
+        var more = document.getElementById("responseDiv");
+        for (var i = 0; i < concatArr.length; i++) {
+            var butt = document.createElement("button");
+            butt.innerHTML = concatArr[i];
+            $(butt).attr("class", "answer");
+            more.appendChild(butt);
+        }
+
+
+        var butt = $(".answer");
+        console.log(butt);
+
+        $(butt).click(function(){
+
+   
+            var clickedAnswer = $(this).html();
+
+    
+            console.log(category);
+            console.log(clickedAnswer);
+
+            if (clickedAnswer === category.correct_answer) {
+                console.log("You're correct!")
+            }
+
+            else {
+                console.log("Sorry, that's not correct.")
+            }
+
+            $("#responseDiv").empty();
+            $("#displayQ").empty();
         });
-        button.appendTo("#rowOne");
-        
-    }
+
+
+
+    
+    };
+
+
+
+
+    var button = $(question);
+
+
+    button.click(function () {
+
+        // $(question).text(category.question);
+        $("#displayQ").text(category.question);
+
+        please();
+
+    })
+
+
+    button.appendTo("#rowOne");
 
 
 
@@ -130,21 +212,9 @@ function catfunction1(data) {
 
 
 
-// // this will shuffle the answers
-// function shuffle(array) {
-//     var currentIndex = array.length, temporaryValue, randomIndex;
-//     // While there remain elements to shuffle...
-//     while (0 !== currentIndex) {
-//         // Pick a remaining element...
-//         randomIndex = Math.floor(Math.random() * currentIndex);
-//         currentIndex -= 1;
-//         // And swap it with the current element.
-//         temporaryValue = array[currentIndex];
-//         array[currentIndex] = array[randomIndex];
-//         array[randomIndex] = temporaryValue;
-//     }
-//     return array;
-//     };
+function catfunction2(data) {
+    console.log(data.results[0]);
+};
 
 
 //     //    creates new div for dynamic info
@@ -255,31 +325,9 @@ function catfunction1(data) {
 //         $("#moneyLost").text(moneyLost);
 //     };
 
-//    $("#quiz").attr("Id", "quiz");
+
 
 //     // parent div event listener
 // document.getElementById("easy2").addEventListener("click", function(e){
 
 
-//     // alerts the user of whether they were correct or not
-//             // e.srcElement was the clicked element
-// if (e.srcElement == col1easy) {
-
-//             console.log("Correct answer!");
-//             $("#winLose").text("Correct! Money Added!")
-//             addMoney();
-//             // empty button div
-//             $(buttonDiv).empty();
-//             // show quiz layout
-//             $("#quiz").show();
-
-// };
-//         if (e.srcElement.id == "incorrect") {
-//             console.log("Sorry, wrong answer");
-//             $("#winLose").text("NOPE! Money Lost")
-//             subtractMoney();
-//             $(buttonDiv).empty();
-//             $("#quiz").show();
-// });
-// });
-// };

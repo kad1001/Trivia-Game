@@ -1,6 +1,6 @@
 body {
     box-sizing: border-box;    
-    padding: 3%;
+    /* padding: 3%; */
     background-color: darkblue;
 }
 
@@ -8,23 +8,24 @@ body {
     background-color: darkblue;
     justify-content: center;
 }
-td {
+/* td {
     font-weight: 600;
-    background-color: darkblue;
+    background-color: darkblue; */
     /* padding: 5%; */
-}
+/* } */
 
-tr {
+/* tr {
     background-color: darkblue;
-}
+} */
 
 .container {
     background-color: darkblue;
     color: sandybrown;
     text-align: center;
+    /* width: 100%; */
     font-size: 30px;
     font-family: 'Anton', sans-serif;
-    float: right;
+    /* float: right; */
 }
 
 button, #rowOne thead .table  {
@@ -32,10 +33,10 @@ button, #rowOne thead .table  {
     color: sandybrown;
    
     font-family: 'Anton', sans-serif;
-    float: right;
+    /* float: right; */
 }
 
-button #rowOne .table thead :after {
+/* button #rowOne .table thead :after {
     content: "";
     clear: both;
     display: table;
@@ -43,21 +44,22 @@ button #rowOne .table thead :after {
 
     table .table #quiz .container{
         width: 2000px;
-    }
+    } */
 
 
-.whitefont, #practiceDiv, #score {
+.whitefont, .button, #practiceDiv, #score, .is-large{
     font-family: 'Aleo', serif;
     color: white;
     text-transform: uppercase;
+    background-color: darkblue;
 
 }
 /* #practiceDiv {
 font-size: 40px;
 } */
 
-.answerQ {
-    width: 40%;
+.answerQ, .is-large{
+    /* width: 40%; */
     background-color: darkblue;
     color: sandybrown;
 }
