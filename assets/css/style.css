@@ -1,6 +1,5 @@
 body {
-    box-sizing: border-box;    
-    /* padding: 3%; */
+    box-sizing: border-box;
     background-color: darkblue;
 }
 
@@ -8,58 +7,54 @@ body {
     background-color: darkblue;
     justify-content: center;
 }
-/* td {
-    font-weight: 600;
-    background-color: darkblue; */
-    /* padding: 5%; */
-/* } */
 
-/* tr {
-    background-color: darkblue;
-} */
-
-.container {
+.container, .categories {
     background-color: darkblue;
     color: sandybrown;
     text-align: center;
-    /* width: 100%; */
+    width: 100%;
     font-size: 30px;
     font-family: 'Anton', sans-serif;
-    /* float: right; */
+    margin: 5%;
+    display: flex;
 }
 
-button, #rowOne thead .table  {
+.moneyButtons {
     background-color: darkblue;
     color: sandybrown;
-   
+    text-align: center;
+    width: 100%;
+    font-size: 50px;
     font-family: 'Anton', sans-serif;
-    /* float: right; */
+    display: flex;
+    /* margin: 20%; */
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
-/* button #rowOne .table thead :after {
-    content: "";
-    clear: both;
-    display: table;
-    }
-
-    table .table #quiz .container{
-        width: 2000px;
-    } */
 
 
-.whitefont, .button, #practiceDiv, #score, .is-large{
-    font-family: 'Aleo', serif;
+.answerBtn {
+    /* width: 20%; */
+    font-family: 'Anton', sans-serif;
+    margin: 2%;
+    background-color: darkblue;
     color: white;
-    text-transform: uppercase;
-    background-color: darkblue;
-
+    font-size: 50px;
 }
-/* #practiceDiv {
-font-size: 40px;
-} */
 
-.answerQ, .is-large{
-    /* width: 40%; */
+
+.answerQ,
+.is-large {
+    font-family: 'Aleo', serif;
+    font-size: 50px;
+    text-transform: uppercase;
+    margin: 4%;
+    width: 100%;
     background-color: darkblue;
-    color: sandybrown;
+    color: white
+}
+
+table {
+border: 3px solid black;
 }
