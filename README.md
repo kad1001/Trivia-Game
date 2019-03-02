@@ -7,9 +7,9 @@ This was my first attempt at dynamically creating objects from an Ajax response 
 
 How I made it:
 
--Javascript + jQuery
-
--<a href="https://bulma.io/">Bulma </a> + CSS
-
+-Vanilla Javascript
+-jQuery
+-CSS
+-HTML/Ajax
 -<a href="https://opentdb.com/">Open Trivia DB </a> (API)
 
