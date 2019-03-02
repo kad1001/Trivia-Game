@@ -1,30 +1,23 @@
-// import { setPriority } from "os";
-
-var time;
-moneyWon = 0;
-// moneyLost = 0;
-
 
 var th1 = $("<th>");
-
 var th2 = $("<th>");
-
 var th3 = $("<th>");
-
 var headers = [th1, th2, th3];
+var body = $("#tBody");
+
 
 var easy = 'easy';
 var medium = 'medium';
 var hard = 'hard';
-var body = $("#tBody");
-
 
 // =====================
 // arrays
-// ================
+// =====================
 var all = [];
-
 var buttonsArr = [];
+
+moneyWon = [];
+
 
 // this will shuffle the answers
 function shuffle(array) {
@@ -64,40 +57,37 @@ function Category(Name, question, correct_answer, incorrect_answers, difficulty)
                 console.log(this.difficulty);
                 // if they are correct
                 moneyWon += 1000;
-                var lastItem = moneyWon.pop();
-
                 return moneyWon
             }
 
-            // if (this.difficulty === 'medium') {
-            //     moneyWon2000);
-            //     return moneyWon
-            // }
-
-            // if (this.difficulty === 'hard') {
-            //     moneyWon.push(3000);
-            //     return moneyWon
-            // }
-        }
-
-        this.down = function (difficulty) {
-            if (this.difficulty === 'easy') {
-                console.log(this.difficulty);
-                // if they are correct
-                moneyWon -= 1000;
+            if (this.difficulty === 'medium') {
+                moneyWon += 2000;
                 return moneyWon
             }
 
-            // if (this.difficulty === 'medium') {
-            //     moneyLost.push(2000);
-            //     return moneyLost
-            // }
-
-            // if (this.difficulty === 'hard') {
-            //     moneyLost.push(3000);
-            //     return moneyLost
-            // }
+            if (this.difficulty === 'hard') {
+                moneyWon += 3000;
+                return moneyWon
+            }
         }
+
+    this.down = function (difficulty) {
+        if (this.difficulty === 'easy') {
+            // if they are correct
+            moneyWon -= 1000;
+            return moneyWon
+        }
+
+        if (this.difficulty === 'medium') {
+            moneyWon -= 2000;
+            return moneyWon
+        }
+
+         if (this.difficulty === 'hard') {
+            moneyWon -= 3000;
+            return moneyWon
+        }
+    }
 }
 
 
@@ -113,7 +103,16 @@ function newCat(difficulty) {
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-        catfunction1(response);
+        if (difficulty === easy) {
+            catfunction1(response);
+        }
+
+        if (difficulty === medium) {
+            catfunction2(response);
+        }
+        if (difficulty === hard) {
+            catfunction3(response);
+        }
     });
 };
 
@@ -124,12 +123,11 @@ for (var a = 0; a < headers.length; a++) {
     var queries = [];
     var divBtn = $("<div>");
     var catNumb = getRndInt(9, 32);
-    // returns all easy questions
-    newCat(easy);
-}
 
-// newCat(medium);
-// newCat(hard);
+    newCat(easy);
+    newCat(medium);
+    newCat(hard);
+}
 
 
 // gets data
@@ -142,32 +140,16 @@ function catfunction1(data) {
     var triviaI = d.incorrect_answers;
     var triviaValue = d.difficulty;
 
-
-    var category = new Category(triviaName, triviaQ, triviaC, triviaI, triviaValue);
-    console.log(category);
-
-    var header = $("<td>").text(category.Name);
-
+    var easyCat = new Category(triviaName, triviaQ, triviaC, triviaI, triviaValue);
+    console.log(easyCat);
+    var header = $("<td>").text(easyCat.Name);
     $("#sciRow").append(header);
-
-    all.push(category);
-    // console.log(all);
-
-    // console.log(category.difficulty);
-
+    all.push(easyCat);
     var question = $("<button>").text("$1000");
-
-    var medQ = $("<button>").text("$2000");
-
-    var hardQ = $("<button>").text("$3000");
-
     $(question).attr("class", "moneyButtons");
-    $(medQ).attr("class", "moneyButtons");
-    $(hardQ).attr("class", "moneyButtons");
 
-    // console.log(category.score());
     var answersArr = [];
-    answersArr.push(category.incorrect_answers, category.correct_answer);
+    answersArr.push(easyCat.incorrect_answers, easyCat.correct_answer);
     var concatArr = answersArr[0].concat(answersArr[1]);
     // shuffle incorrect & correct answers
     shuffle(concatArr);
@@ -177,7 +159,85 @@ function catfunction1(data) {
         // ========================
         // buttons
         // =========================
+        var more = document.getElementById("responseDiv");
+        for (var i = 0; i < concatArr.length; i++) {
 
+            var butt = document.createElement("button");
+            butt.innerHTML = concatArr[i];
+            $(butt).attr("class", "answerBtn");
+            more.appendChild(butt);
+
+        }
+        //===================================
+        // answer buttons
+        var butt = $(".answerBtn");
+        $(butt).attr("class", "answerQ");
+        $(butt).click(function () {
+
+            // reads which button they clicked
+            var clickedAnswer = $(this).html();
+
+            if (clickedAnswer === easyCat.correct_answer) {
+                $("#results").text("Correct!");
+                easyCat.score();
+                $("#moneyWon").append(moneyWon);
+
+            } else {
+                $("#results").text("Sorry, that's not correct!");
+                easyCat.down();
+                $("#moneyWon").append(moneyWon);
+            }
+
+            // clears game evidence
+            $("#responseDiv").empty();
+            $("#displayQ").empty();
+        });
+    };
+
+    var button1 = $(question);
+
+    button1.click(function () {
+
+        // disable all buttons in the quiz
+        $(this).prop('disabled', true);
+
+        $("#displayQ").text(easyCat.question);
+        $("#results").empty();
+        please();
+
+    });
+    button1.appendTo("#rowOne");
+};
+
+
+// gets data
+function catfunction2(data) {
+    // saves the data response into a new Category
+    var d = data.results[0];
+    var triviaName = d.category;
+    var triviaQ = d.question;
+    var triviaC = d.correct_answer;
+    var triviaI = d.incorrect_answers;
+    var triviaValue = d.difficulty;
+
+    var medCat = new Category(triviaName, triviaQ, triviaC, triviaI, triviaValue);
+    console.log(medCat);
+
+    all.push(medCat);
+    var question = $("<button>").text("$2000");
+    $(question).attr("class", "moneyButtons");
+
+    var answersArr = [];
+    answersArr.push(medCat.incorrect_answers, medCat.correct_answer);
+    var concatArr = answersArr[0].concat(answersArr[1]);
+    // shuffle incorrect & correct answers
+    shuffle(concatArr);
+
+    // please append these to the response div
+    function please() {
+        // ========================
+        // buttons
+        // =========================
         var more = document.getElementById("responseDiv");
         for (var i = 0; i < concatArr.length; i++) {
             var butt = document.createElement("button");
@@ -186,10 +246,87 @@ function catfunction1(data) {
             more.appendChild(butt);
         }
 
+        //===================================
 
         // answer buttons
         var butt = $(".answerBtn");
-        // console.log(butt);
+        $(butt).attr("class", "answerQ");
+        $(butt).click(function () {
+            // reads which button they clicked
+            var clickedAnswer = $(this).html();
+
+            if (clickedAnswer === medCat.correct_answer) {
+                $("#results").text("Correct!");
+                medCat.score();
+                $("#moneyWon").append(moneyWon);
+
+            } else {
+                $("#results").text("Sorry, that's not correct!");
+                medCat.down();
+                $("#moneyWon").append(moneyWon);
+            }
+
+            // clears game evidence
+            $("#responseDiv").empty();
+            $("#displayQ").empty();
+        });
+    };
+
+    var button2 = $(question);
+
+    button2.click(function () {
+        $(this).prop('disabled', true);
+
+
+        $("#displayQ").text(medCat.question);
+        $("#results").empty();
+        please();
+    });
+    button2.appendTo("#rowTwo");
+};
+
+
+// gets data
+function catfunction3(data) {
+    // saves the data response into a new Category
+    var d = data.results[0];
+    var triviaName = d.category;
+    var triviaQ = d.question;
+    var triviaC = d.correct_answer;
+    var triviaI = d.incorrect_answers;
+    var triviaValue = d.difficulty;
+
+    var hardCat = new Category(triviaName, triviaQ, triviaC, triviaI, triviaValue);
+    console.log(hardCat);
+
+    all.push(hardCat);
+    var question = $("<button>").text("$3000");
+    $(question).attr("class", "moneyButtons");
+
+    var answersArr = [];
+    answersArr.push(hardCat.incorrect_answers, hardCat.correct_answer);
+    var concatArr = answersArr[0].concat(answersArr[1]);
+    // shuffle incorrect & correct answers
+    shuffle(concatArr);
+
+    // please append these to the response div
+    function please() {
+        // ========================
+        // buttons
+        // =========================
+        var more = document.getElementById("responseDiv");
+
+        for (var i = 0; i < concatArr.length; i++) {
+
+            var butt = document.createElement("button");
+            butt.innerHTML = concatArr[i];
+            $(butt).attr("class", "answerBtn");
+            more.appendChild(butt);
+
+        }
+        //===================================
+        // answer buttons
+        var butt = $(".answerBtn");
         $(butt).attr("class", "answerQ");
 
         $(butt).click(function () {
@@ -197,69 +334,33 @@ function catfunction1(data) {
             // reads which button they clicked
             var clickedAnswer = $(this).html();
 
-            console.log(category);
-            // console.log(clickedAnswer);
-
-            if (clickedAnswer === category.correct_answer) {
-
+            if (clickedAnswer === hardCat.correct_answer) {
                 $("#results").text("Correct!");
-                category.score();
-                console.log(lastItem);
-                $("#moneyWon").append(moneyWon);
+                hardCat.score();
+                $("#moneyWon").text(moneyWon);
 
             } else {
                 $("#results").text("Sorry, that's not correct!");
-                category.down();
-                console.log(lastItem);
-                $("#moneyWon").append(moneyWon);
-                
-
+                hardCat.down();
+                $("#moneyWon").text(moneyWon);
             }
 
+            // clears game evidence
             $("#responseDiv").empty();
             $("#displayQ").empty();
         });
-
-
     };
 
+    var button3 = $(question);
 
-    var button1 = $(question);
+    button3.click(function () {
+        $(this).prop('disabled', true);
 
-    // var button2 = $(medQ);
 
-    // var button3 = $(hardQ);
-
-    button1.click(function () {
-
-        $("#displayQ").text(category.question);
+        $("#displayQ").text(hardCat.question);
         $("#results").empty();
-
         please();
 
     });
-
-    // button2.click(function () {
-    //     $("#displayQ").text(category.question);
-    //     $("#results").empty();
-
-    //     please();
-    // });
-
-    // button3.click(function () {
-    //     $("#displayQ").text(category.question);
-    //     $("#results").empty();
-
-    //     please();
-    // })
-
-
-
-    button1.appendTo("#rowOne");
-
-    // button2.appendTo("#rowTwo");
-
-    // button3.appendTo("#rowThree");
-
-
+    button3.appendTo("#rowThree");
 };
