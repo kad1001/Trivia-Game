@@ -180,12 +180,12 @@ function catfunction1(data) {
             if (clickedAnswer === easyCat.correct_answer) {
                 $("#results").text("Correct!");
                 easyCat.score();
-                $("#moneyWon").append(moneyWon);
+                $("#moneyWon").text(moneyWon);
 
             } else {
                 $("#results").text("Sorry, that's not correct!");
                 easyCat.down();
-                $("#moneyWon").append(moneyWon);
+                $("#moneyWon").text(moneyWon);
             }
 
             // clears game evidence
@@ -258,12 +258,12 @@ function catfunction2(data) {
             if (clickedAnswer === medCat.correct_answer) {
                 $("#results").text("Correct!");
                 medCat.score();
-                $("#moneyWon").append(moneyWon);
+                $("#moneyWon").text(moneyWon);
 
             } else {
                 $("#results").text("Sorry, that's not correct!");
                 medCat.down();
-                $("#moneyWon").append(moneyWon);
+                $("#moneyWon").text(moneyWon);
             }
 
             // clears game evidence
