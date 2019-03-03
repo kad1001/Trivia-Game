@@ -97,7 +97,7 @@ function newCat(difficulty) {
     // console.log(difficulty);
     // gets always global (random) catNumb the random cat number
     // can take anywhere from 9 to 32 cats in 1 sitting hopefully
-    var queryURL = ("https://opentdb.com/api.php?amount=3&category=" + catNumb + "&difficulty=" + difficulty + "&type=multiple");
+    var queryURL = ("https://opentdb.com/api.php?amount=1&category=" + catNumb + "&difficulty=" + difficulty + "&type=multiple");
 
     $.ajax({
         url: queryURL,
@@ -107,6 +107,7 @@ function newCat(difficulty) {
             catfunction1(response);
         }
 
+        
         if (difficulty === medium) {
             catfunction2(response);
         }
@@ -142,6 +143,7 @@ function catfunction1(data) {
 
     var easyCat = new Category(triviaName, triviaQ, triviaC, triviaI, triviaValue);
     console.log(easyCat);
+
     var header = $("<td>").text(easyCat.Name);
     $("#sciRow").append(header);
     all.push(easyCat);
@@ -272,8 +274,10 @@ function catfunction2(data) {
         });
     };
 
-    var button2 = $(question);
+    console.log(medCat);
 
+    var button2 = $(question);
+    button2.appendTo("#rowTwo");
     button2.click(function () {
         $(this).prop('disabled', true);
 
@@ -282,7 +286,7 @@ function catfunction2(data) {
         $("#results").empty();
         please();
     });
-    button2.appendTo("#rowTwo");
+
 };
 
 
