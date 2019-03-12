@@ -1,3 +1,9 @@
+import {
+    resolve
+} from "dns";
+import {
+    rejects
+} from "assert";
 
 var th1 = $("<th>");
 var th2 = $("<th>");
@@ -15,7 +21,6 @@ var hard = 'hard';
 // =====================
 var all = [];
 var buttonsArr = [];
-
 moneyWon = [];
 
 
@@ -43,6 +48,41 @@ function getRndInt(min, max) {
 };
 
 
+// api returns categories from a database and takes some amount of time to complete
+const getApi = () => {
+    return new Promise((resolve, reject) => {
+        return setTimeout(
+            () => resolve([{
+                    id: 'cat1'
+                },
+                {
+                    id: 'cat2'
+                },
+                {
+                    id: 'cat3'
+                }
+            ]),
+            600
+        )
+    })
+}
+
+// call that relies on some info that exists in the entire array of categories (cats)
+const getQsFromCat = cats => {
+    return new Promise((resolve, reject) => {
+        return setTimeout(() => resolve(cats.id), 500)
+    })
+}
+
+// third call that modifies the second call
+
+const showQs = q => {
+    return new Promise((resolve, reject) => {
+        return setTimeout(() => resolve(q.appendTo()))
+    })
+}
+
+
 // constructor for Categroy
 function Category(Name, question, correct_answer, incorrect_answers, difficulty) {
     this.Name = Name,
@@ -52,10 +92,8 @@ function Category(Name, question, correct_answer, incorrect_answers, difficulty)
         this.difficulty = difficulty,
 
         // determines value of question this will upvote in correctA
-        this.score = function (difficulty) {
+        this.score = function () {
             if (this.difficulty === 'easy') {
-                console.log(this.difficulty);
-                // if they are correct
                 moneyWon += 1000;
                 return moneyWon
             }
@@ -71,9 +109,8 @@ function Category(Name, question, correct_answer, incorrect_answers, difficulty)
             }
         }
 
-    this.down = function (difficulty) {
+    this.down = function () {
         if (this.difficulty === 'easy') {
-            // if they are correct
             moneyWon -= 1000;
             return moneyWon
         }
@@ -83,7 +120,7 @@ function Category(Name, question, correct_answer, incorrect_answers, difficulty)
             return moneyWon
         }
 
-         if (this.difficulty === 'hard') {
+        if (this.difficulty === 'hard') {
             moneyWon -= 3000;
             return moneyWon
         }
@@ -92,29 +129,29 @@ function Category(Name, question, correct_answer, incorrect_answers, difficulty)
 
 
 
-//  gets ajax response of random difficulties
+//  gets ajax response with passed in difficulty
 function newCat(difficulty) {
-    // console.log(difficulty);
+
     // gets always global (random) catNumb the random cat number
-    // can take anywhere from 9 to 32 cats in 1 sitting hopefully
+
     var queryURL = ("https://opentdb.com/api.php?amount=1&category=" + catNumb + "&difficulty=" + difficulty + "&type=multiple");
 
     $.ajax({
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-        if (difficulty === easy) {
-            catfunction1(response);
+        switch (difficulty) {
+            case easy:
+                catfunction1(response);
+                break;
+            case medium:
+                catfunction2(response);
+                break;
+            case hard:
+                catfunction3(response);
+                break;
         }
-
-        
-        if (difficulty === medium) {
-            catfunction2(response);
-        }
-        if (difficulty === hard) {
-            catfunction3(response);
-        }
-    });
+    })
 };
 
 
@@ -129,6 +166,22 @@ for (var a = 0; a < headers.length; a++) {
     newCat(medium);
     newCat(hard);
 }
+
+// please append these to the response div
+function please(array) {
+    // ========================
+    // buttons
+    // =========================
+    var more = document.getElementById("responseDiv");
+    for (var i = 0; i < array.length; i++) {
+
+        var butt = document.createElement("button");
+        butt.innerHTML = array[i];
+        $(butt).attr("class", "answerBtn");
+        more.appendChild(butt);
+
+    }
+};
 
 
 // gets data
@@ -156,45 +209,30 @@ function catfunction1(data) {
     // shuffle incorrect & correct answers
     shuffle(concatArr);
 
-    // please append these to the response div
-    function please() {
-        // ========================
-        // buttons
-        // =========================
-        var more = document.getElementById("responseDiv");
-        for (var i = 0; i < concatArr.length; i++) {
+    //===================================
+    // answer buttons
+    var butt = $(".answerBtn");
+    $(butt).attr("class", "answerQ");
+    $(butt).click(function () {
 
-            var butt = document.createElement("button");
-            butt.innerHTML = concatArr[i];
-            $(butt).attr("class", "answerBtn");
-            more.appendChild(butt);
+        // reads which button they clicked
+        var clickedAnswer = $(this).html();
 
+        if (clickedAnswer === easyCat.correct_answer) {
+            $("#results").text("Correct!");
+            easyCat.score();
+            $("#moneyWon").text(moneyWon);
+
+        } else {
+            $("#results").text("Sorry, that's not correct!");
+            easyCat.down();
+            $("#moneyWon").text(moneyWon);
         }
-        //===================================
-        // answer buttons
-        var butt = $(".answerBtn");
-        $(butt).attr("class", "answerQ");
-        $(butt).click(function () {
 
-            // reads which button they clicked
-            var clickedAnswer = $(this).html();
-
-            if (clickedAnswer === easyCat.correct_answer) {
-                $("#results").text("Correct!");
-                easyCat.score();
-                $("#moneyWon").text(moneyWon);
-
-            } else {
-                $("#results").text("Sorry, that's not correct!");
-                easyCat.down();
-                $("#moneyWon").text(moneyWon);
-            }
-
-            // clears game evidence
-            $("#responseDiv").empty();
-            $("#displayQ").empty();
-        });
-    };
+        // clears game evidence
+        $("#responseDiv").empty();
+        $("#displayQ").empty();
+    });
 
     var button1 = $(question);
 
@@ -205,7 +243,7 @@ function catfunction1(data) {
 
         $("#displayQ").text(easyCat.question);
         $("#results").empty();
-        please();
+        please(concatArr);
 
     });
     button1.appendTo("#rowOne");
@@ -235,46 +273,33 @@ function catfunction2(data) {
     // shuffle incorrect & correct answers
     shuffle(concatArr);
 
-    // please append these to the response div
-    function please() {
-        // ========================
-        // buttons
-        // =========================
-        var more = document.getElementById("responseDiv");
-        for (var i = 0; i < concatArr.length; i++) {
-            var butt = document.createElement("button");
-            butt.innerHTML = concatArr[i];
-            $(butt).attr("class", "answerBtn");
-            more.appendChild(butt);
+
+    //===================================
+
+    // answer buttons
+    var butt = $(".answerBtn");
+    $(butt).attr("class", "answerQ");
+    $(butt).click(function () {
+        // reads which button they clicked
+        var clickedAnswer = $(this).html();
+
+        if (clickedAnswer === medCat.correct_answer) {
+            $("#results").text("Correct!");
+            medCat.score();
+            $("#moneyWon").text(moneyWon);
+
+        } else {
+            $("#results").text("Sorry, that's not correct!");
+            medCat.down();
+            $("#moneyWon").text(moneyWon);
         }
 
-        //===================================
+        // clears game evidence
+        $("#responseDiv").empty();
+        $("#displayQ").empty();
+    });
 
-        // answer buttons
-        var butt = $(".answerBtn");
-        $(butt).attr("class", "answerQ");
-        $(butt).click(function () {
-            // reads which button they clicked
-            var clickedAnswer = $(this).html();
 
-            if (clickedAnswer === medCat.correct_answer) {
-                $("#results").text("Correct!");
-                medCat.score();
-                $("#moneyWon").text(moneyWon);
-
-            } else {
-                $("#results").text("Sorry, that's not correct!");
-                medCat.down();
-                $("#moneyWon").text(moneyWon);
-            }
-
-            // clears game evidence
-            $("#responseDiv").empty();
-            $("#displayQ").empty();
-        });
-    };
-
-    console.log(medCat);
 
     var button2 = $(question);
     button2.appendTo("#rowTwo");
@@ -284,7 +309,7 @@ function catfunction2(data) {
 
         $("#displayQ").text(medCat.question);
         $("#results").empty();
-        please();
+        please(concatArr);
     });
 
 };

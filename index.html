@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- css -->
     <link rel="stylesheet" href="assets/css/style.css">
+    <!-- angular.js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 
     <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- <script async src="https://code.jquery.com/jquery.js"></script> -->
 
     <!-- <script async src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript"></script> -->
 
     <!-- javascript -->
-    <script async src="assets/javascript/app.js"></script>
+    <!-- <script async src="assets/javascript/app.js"></script> -->
 
     <!-- google fonts -->
     <link href="https://fonts.googleapis.com/css?family=Anton|Aleo:300,700" rel="stylesheet">
@@ -37,33 +40,27 @@
     </div>
 
 
-
-    <div class="container is-flex table " id="quiz">
+    <!-- MAIN TABLE -->
+    <div class="container is-flex table" ng-app="quizTable" ng-controller="customersCtrl">
 
 
         <table class="whitefont">
-            <thead class="is-flex">
+            <!-- CATEGORIES -->
 
-                <tr id="sciRow" class="container">
+            <tr>
+                <th ng-bind="cat1"></th>
+                <!-- <br> -->
+                <th ng-bind="cat2"></th>
+                <th ng-bind="cat3">dd</th>
 
-                </tr>
+            </tr>
 
-
-            </thead>
-
-
-            <tbody style="width: 100%;">
-
-                <tr id="rowOne" class="container"> </tr>
-
-                <tr id="rowTwo" class="container"></tr>
-
-                <tr id="rowThree" class="container"></tr>
-
-
-            </tbody>
-
-
+            <!-- QUESTIONS -->
+            <tr ng-repeat="x in questions">
+                {{ x.Question }}
+                <!-- <td>{{ x.cat2 }}</td> -->
+                <!-- <td>{{ x.cat3 }}</td> -->
+            </tr>
 
         </table>
     </div>
@@ -81,11 +78,76 @@
 
         <div id="results"></div>
     </div>
-<div class="container">
-    <h1 id="moneyWon"></h1>
-    <!-- <h1 id="moneyLost"></h1> -->
-</div>
+    <div class="container">
+        <h1 id="moneyWon"></h1>
+    </div>
 
+
+    <script>
+        // ANGULAR/HTTP
+        var app = angular.module('quizTable', []);
+        // gets random category number to plug in for url
+        function getRndInt(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        };
+
+        app.controller('customersCtrl', function ($scope, $http) {
+
+            function Category(data) {
+                var arr = data.data.results;
+                // this.Array = arr;
+
+                this.Name = arr.category;
+
+                for (let x = 0; x < arr.length; x++) {
+         
+                this.Correct = arr[x].correct_answer;
+                this.Incorrect = arr[x].incorrect_answers;
+                this.Answers = [this.Correct + this.Incorrect];
+                this.Question = arr[x].question;
+                }
+            }
+
+            // function gamePlay(data) {
+            //     var p = new Category(data);
+            //     // console.log(x.Array);
+            //     // console.log(x.Name);
+            //     // console.log(x.Answers);
+            //     // console.log(x.Question);
+            //     // console.log(x.Correct);
+            //     // $scope.questions = p.Questions;
+
+            // }
+
+  
+            function getCategory(random) {
+            // right now it doesn't return different difficulties
+            $http({
+                url: "https://opentdb.com/api.php?amount=3&category=" + random,
+                method: "GET"
+            }).then(function successCallback(response) {
+                console.log(random);
+                // send data to Category constructor
+                new Category(response);
+                // gamePlay(response);
+                // $scope.questions = response.data.results[0];
+                console.log(response);
+                console.log(Category.arr);
+
+                
+            })
+            }
+
+            getCategory(getRndInt(9, 32));
+            getCategory(getRndInt(9, 32));
+            getCategory(getRndInt(9, 32));
+
+
+        })
+        
+    
+
+    </script>
 </body>
 
 </html>
