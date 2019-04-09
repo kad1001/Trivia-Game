@@ -147,6 +147,12 @@ function catfunction1(data) {
     all.push(easyCat);
     var question = $("<button>").text("$1000");
     $(question).attr("class", "moneyButtons");
+    $(question).on("click", function(){
+        $("#quiz").css("visibility", "hidden");
+        $("#quiz").css("height", "0px");
+
+    })
+
 
     var answersArr = [];
     answersArr.push(easyCat.incorrect_answers, easyCat.correct_answer);
@@ -173,6 +179,9 @@ function catfunction1(data) {
         var butt = $(".answerBtn");
         $(butt).attr("class", "answerQ");
         $(butt).click(function () {
+            $("#quiz").css("visibility", "inherit");
+            $("#quiz").css("height", "auto");
+
 
             // reads which button they clicked
             var clickedAnswer = $(this).html();
@@ -226,7 +235,10 @@ function catfunction2(data) {
     all.push(medCat);
     var question = $("<button>").text("$2000");
     $(question).attr("class", "moneyButtons");
-
+    $(question).on("click", function(){
+        $("#quiz").css("visibility", "hidden");
+        $("#quiz").css("height", "0px");
+    })
     var answersArr = [];
     answersArr.push(medCat.incorrect_answers, medCat.correct_answer);
     var concatArr = answersArr[0].concat(answersArr[1]);
@@ -252,6 +264,10 @@ function catfunction2(data) {
         var butt = $(".answerBtn");
         $(butt).attr("class", "answerQ");
         $(butt).click(function () {
+            $("#quiz").css("visibility", "inherit");
+            $("#quiz").css("height", "auto");
+
+
             // reads which button they clicked
             var clickedAnswer = $(this).html();
 
@@ -302,7 +318,11 @@ function catfunction3(data) {
     all.push(hardCat);
     var question = $("<button>").text("$3000");
     $(question).attr("class", "moneyButtons");
+    $(question).on("click", function(){
+        $("#quiz").css("visibility", "hidden");
+        $("#quiz").css("height", "0px");
 
+    })
     var answersArr = [];
     answersArr.push(hardCat.incorrect_answers, hardCat.correct_answer);
     var concatArr = answersArr[0].concat(answersArr[1]);
@@ -330,6 +350,10 @@ function catfunction3(data) {
         $(butt).attr("class", "answerQ");
 
         $(butt).click(function () {
+            $("#quiz").css("visibility", "inherit");
+            $("#quiz").css("height", "auto");
+
+
 
             // reads which button they clicked
             var clickedAnswer = $(this).html();
