@@ -64,8 +64,9 @@ const categoryTwo = getRndInt(9, 32);
 const categoryThree = getRndInt(9, 32);
 allCategories.push(categoryOne, categoryTwo, categoryThree);
 
-allCategories.forEach(category, function(){
+// allCategories.forEach(category, function(){
 
+for (let x = 0; x < allCategories.length; x++){
 
 
 // category one 
@@ -73,16 +74,17 @@ allCategories.forEach(category, function(){
         url: queryURL,
         params: {
             amount: 1,
-            category: category,
-            type: multiple
+            category: allCategories[x],
+            type: 'multiple'
         },
         method: "GET"
-    }).then(function (response) {
+    }).then(function (response, data) {
         console.log(response);
+        console.log(data)
     });
 
 
-})
+}
 
 
 // // gets data

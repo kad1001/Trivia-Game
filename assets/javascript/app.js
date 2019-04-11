@@ -1,4 +1,3 @@
-
 var th1 = $("<th>");
 var th2 = $("<th>");
 var th3 = $("<th>");
@@ -13,8 +12,9 @@ var hard = 'hard';
 // =====================
 // arrays
 // =====================
-var all = [];
 var buttonsArr = [];
+
+ajaxResponses = [];
 
 moneyWon = [];
 
@@ -83,7 +83,7 @@ function Category(Name, question, correct_answer, incorrect_answers, difficulty)
             return moneyWon
         }
 
-         if (this.difficulty === 'hard') {
+        if (this.difficulty === 'hard') {
             moneyWon -= 3000;
             return moneyWon
         }
@@ -103,15 +103,18 @@ function newCat(difficulty) {
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-        if (difficulty === easy) {
-            catfunction1(response);
-        }
+        switch (difficulty) {
+            case easy:
+                categoryFunction(response, easy)
+                break;
 
-        if (difficulty === medium) {
-            catfunction2(response);
-        }
-        if (difficulty === hard) {
-            catfunction3(response);
+            case medium:
+                categoryFunction(response, medium)
+                break;
+
+            case hard:
+                categoryFunction(response, hard)
+                break;
         }
     });
 };
@@ -119,272 +122,128 @@ function newCat(difficulty) {
 
 // for each header (3), perform ajax and push category numbs to all
 
-for (var a = 0; a < headers.length; a++) {
-    var queries = [];
-    var divBtn = $("<div>");
+for (var a = 0; a < 3; a++) {
     var catNumb = getRndInt(9, 32);
-
     newCat(easy);
     newCat(medium);
     newCat(hard);
 }
 
+// please append these to the response div
+function please(array) {
+    // console.log(array)
+    // ========================
+    // buttons
+    // =========================
+    var more = document.getElementById("responseDiv");
 
-// gets data
-function catfunction1(data) {
-    // saves the data response into a new Category
-    var d = data.results[0];
-    var triviaName = d.category;
-    var triviaQ = d.question;
-    var triviaC = d.correct_answer;
-    var triviaI = d.incorrect_answers;
-    var triviaValue = d.difficulty;
+    for (var i = 0; i < array.length; i++) {
 
-    var easyCat = new Category(triviaName, triviaQ, triviaC, triviaI, triviaValue);
-    console.log(easyCat);
-    var header = $("<td>").text(easyCat.Name);
-    $("#sciRow").append(header);
-    all.push(easyCat);
-    var question = $("<button>").text("$1000");
-    $(question).attr("class", "moneyButtons");
-    $(question).on("click", function(){
-        $("#quiz").css("visibility", "hidden");
-        $("#quiz").css("height", "0px");
+        var butt = document.createElement("button");
+        butt.innerHTML = array[i];
+        $(butt).attr("class", "answerBtn");
+        more.appendChild(butt);
 
-    })
-
-
-    var answersArr = [];
-    answersArr.push(easyCat.incorrect_answers, easyCat.correct_answer);
-    var concatArr = answersArr[0].concat(answersArr[1]);
-    // shuffle incorrect & correct answers
-    shuffle(concatArr);
-
-    // please append these to the response div
-    function please() {
-        // ========================
-        // buttons
-        // =========================
-        var more = document.getElementById("responseDiv");
-        for (var i = 0; i < concatArr.length; i++) {
-
-            var butt = document.createElement("button");
-            butt.innerHTML = concatArr[i];
-            $(butt).attr("class", "answerBtn");
-            more.appendChild(butt);
-
-        }
-        //===================================
-        // answer buttons
-        var butt = $(".answerBtn");
-        $(butt).attr("class", "answerQ");
-        $(butt).click(function () {
-            $("#quiz").css("visibility", "inherit");
-            $("#quiz").css("height", "auto");
-
-
-            // reads which button they clicked
-            var clickedAnswer = $(this).html();
-
-            if (clickedAnswer === easyCat.correct_answer) {
-                $("#results").text("Correct!");
-                easyCat.score();
-                $("#moneyWon").text(moneyWon);
-
-            } else {
-                $("#results").text("Sorry, that's not correct!");
-                easyCat.down();
-                $("#moneyWon").text(moneyWon);
-            }
-
-            // clears game evidence
-            $("#responseDiv").empty();
-            $("#displayQ").empty();
-        });
-    };
-
-    var button1 = $(question);
-
-    button1.click(function () {
-
-        // disable all buttons in the quiz
-        $(this).prop('disabled', true);
-
-        $("#displayQ").text(easyCat.question);
-        $("#results").empty();
-        please();
-
-    });
-    button1.appendTo("#rowOne");
+    }
 };
 
+function getAnswer(selected) {
+    // reads which button they clicked
+    var clickedAnswer = $(this).html();
 
-// gets data
-function catfunction2(data) {
-    // saves the data response into a new Category
-    var d = data.results[0];
-    var triviaName = d.category;
-    var triviaQ = d.question;
-    var triviaC = d.correct_answer;
-    var triviaI = d.incorrect_answers;
-    var triviaValue = d.difficulty;
+    for (let x = 0; x < ajaxResponses.length; x++) {
 
-    var medCat = new Category(triviaName, triviaQ, triviaC, triviaI, triviaValue);
-    console.log(medCat);
+        if (clickedAnswer === ajaxResponses[x].correct_answer) {
+            $("#results").text("Correct!");
+            ajaxResponses[x].score();
+            $("#moneyWon").text(moneyWon);
 
-    all.push(medCat);
-    var question = $("<button>").text("$2000");
-    $(question).attr("class", "moneyButtons");
-    $(question).on("click", function(){
-        $("#quiz").css("visibility", "hidden");
-        $("#quiz").css("height", "0px");
-    })
-    var answersArr = [];
-    answersArr.push(medCat.incorrect_answers, medCat.correct_answer);
-    var concatArr = answersArr[0].concat(answersArr[1]);
-    // shuffle incorrect & correct answers
-    shuffle(concatArr);
-
-    // please append these to the response div
-    function please() {
-        // ========================
-        // buttons
-        // =========================
-        var more = document.getElementById("responseDiv");
-        for (var i = 0; i < concatArr.length; i++) {
-            var butt = document.createElement("button");
-            butt.innerHTML = concatArr[i];
-            $(butt).attr("class", "answerBtn");
-            more.appendChild(butt);
+        } else {
+            $("#results").text("Sorry, that's not correct!");
+            ajaxResponses[x].down();
+            $("#moneyWon").text(moneyWon);
         }
+    }
+}
 
-        //===================================
-
-        // answer buttons
-        var butt = $(".answerBtn");
-        $(butt).attr("class", "answerQ");
-        $(butt).click(function () {
-            $("#quiz").css("visibility", "inherit");
-            $("#quiz").css("height", "auto");
-
-
-            // reads which button they clicked
-            var clickedAnswer = $(this).html();
-
-            if (clickedAnswer === medCat.correct_answer) {
-                $("#results").text("Correct!");
-                medCat.score();
-                $("#moneyWon").text(moneyWon);
-
-            } else {
-                $("#results").text("Sorry, that's not correct!");
-                medCat.down();
-                $("#moneyWon").text(moneyWon);
-            }
-
-            // clears game evidence
-            $("#responseDiv").empty();
-            $("#displayQ").empty();
-        });
-    };
-
-    var button2 = $(question);
-
-    button2.click(function () {
-        $(this).prop('disabled', true);
-
-
-        $("#displayQ").text(medCat.question);
-        $("#results").empty();
-        please();
-    });
-    button2.appendTo("#rowTwo");
-};
-
+// clears game evidence
+$("#responseDiv").empty();
+$("#displayQ").empty();
 
 // gets data
-function catfunction3(data) {
+function categoryFunction(data, difficulty) {
     // saves the data response into a new Category
     var d = data.results[0];
     var triviaName = d.category;
     var triviaQ = d.question;
     var triviaC = d.correct_answer;
     var triviaI = d.incorrect_answers;
-    var triviaValue = d.difficulty;
+    var triviaValue = difficulty;
 
-    var hardCat = new Category(triviaName, triviaQ, triviaC, triviaI, triviaValue);
-    console.log(hardCat);
+    ajaxResponses.push(new Category(triviaName, triviaQ, triviaC, triviaI, triviaValue));
+    console.log(ajaxResponses);
 
-    all.push(hardCat);
     var question = $("<button>").text("$3000");
     $(question).attr("class", "moneyButtons");
-    $(question).on("click", function(){
+    $(question).on("click", function () {
         $("#quiz").css("visibility", "hidden");
         $("#quiz").css("height", "0px");
 
     })
     var answersArr = [];
-    answersArr.push(hardCat.incorrect_answers, hardCat.correct_answer);
-    var concatArr = answersArr[0].concat(answersArr[1]);
-    // shuffle incorrect & correct answers
-    shuffle(concatArr);
 
-    // please append these to the response div
-    function please() {
-        // ========================
-        // buttons
-        // =========================
-        var more = document.getElementById("responseDiv");
+    var selectedArr = [];
 
-        for (var i = 0; i < concatArr.length; i++) {
 
-            var butt = document.createElement("button");
-            butt.innerHTML = concatArr[i];
-            $(butt).attr("class", "answerBtn");
-            more.appendChild(butt);
+    for (x = 0; x < ajaxResponses.length; x++) {
+        answersArr.push(ajaxResponses[x].incorrect_answers, ajaxResponses[x].correct_answer);
+        console.log(answersArr)
 
-        }
-        //===================================
-        // answer buttons
-        var butt = $(".answerBtn");
-        $(butt).attr("class", "answerQ");
+        // shuffle incorrect & correct answers
+        // shuffle(concatArr);
+    
+        // please(concatArr);
 
-        $(butt).click(function () {
-            $("#quiz").css("visibility", "inherit");
-            $("#quiz").css("height", "auto");
+    }
+    for (x = 0; x < answersArr.length; x++){
+        selectedArr.push(answersArr[x]);
+
+        // var concatArr = answersArr[0].concat(answersArr[1]);
+
+    }
+    console.log(selectedArr)
 
 
 
-            // reads which button they clicked
-            var clickedAnswer = $(this).html();
-
-            if (clickedAnswer === hardCat.correct_answer) {
-                $("#results").text("Correct!");
-                hardCat.score();
-                $("#moneyWon").text(moneyWon);
-
-            } else {
-                $("#results").text("Sorry, that's not correct!");
-                hardCat.down();
-                $("#moneyWon").text(moneyWon);
-            }
-
-            // clears game evidence
-            $("#responseDiv").empty();
-            $("#displayQ").empty();
-        });
-    };
-
-    var button3 = $(question);
-
-    button3.click(function () {
-        $(this).prop('disabled', true);
 
 
-        $("#displayQ").text(hardCat.question);
-        $("#results").empty();
-        please();
+    //===================================
+    // answer buttons
+    var butt = $(".answerBtn");
+    $(butt).attr("class", "answerQ");
+
+    $(butt).on("click", function () {
+        $("#quiz").css("visibility", "inherit");
+        $("#quiz").css("height", "auto");
+
+        getAnswer(butt);
 
     });
-    button3.appendTo("#rowThree");
-};
+
+    var moneyButton = $(question);
+    moneyButton.appendTo("#quiz");
+
+    moneyButton.on("click", function () {
+            $(this).prop('disabled', true);
+
+            console.log($(this))
+
+
+            // $("#displayQ").text(hardCat.question);
+            $("#results").empty();
+            please();
+
+        });
+
+
+    };
